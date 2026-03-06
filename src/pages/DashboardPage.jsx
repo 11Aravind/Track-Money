@@ -44,8 +44,8 @@ const DashboardPage = () => {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-primary-black">Dashboard</h1>
-          <p className="text-primary-gray-600 mt-1">Welcome to your expense tracker</p>
+          <h1 className="text-3xl font-bold text-text-primary">Dashboard</h1>
+          <p className="text-text-secondary mt-1">Welcome to your expense tracker</p>
         </div>
         <Button onClick={() => setShowAddModal(true)}>
           <Plus size={20} />
@@ -60,25 +60,28 @@ const DashboardPage = () => {
           value={analytics.balance}
           icon={Wallet}
           type="neutral"
+          className="animate-card-in"
         />
         <StatsCard
           title="Total Income"
           value={analytics.totalIncome}
           icon={TrendingUp}
           type="income"
+          className="animate-card-in-delay-1"
         />
         <StatsCard
           title="Total Expense"
           value={analytics.totalExpense}
           icon={TrendingDown}
           type="expense"
+          className="animate-card-in-delay-2"
         />
       </div>
 
       {/* Monthly Overview */}
-      <div className="card mb-6">
+      <div className="card mb-6 animate-card-in">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-primary-black">Monthly Overview</h2>
+          <h2 className="text-xl font-semibold text-text-primary">Monthly Overview</h2>
           <select
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
@@ -94,22 +97,22 @@ const DashboardPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div 
-            className="p-4 bg-green-50 rounded-lg cursor-pointer hover:bg-green-100 transition-colors"
+            className="p-4 bg-finance-income-light rounded-xl cursor-pointer hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
             onClick={() => navigate('/transactions?type=income')}
           >
-            <p className="text-sm text-green-700 mb-1">Income</p>
-            <p className="text-2xl font-bold text-green-600">{formatCurrency(monthIncome)}</p>
+            <p className="text-sm text-finance-income font-medium mb-1">Income</p>
+            <p className="text-2xl font-bold text-finance-income">{formatCurrency(monthIncome)}</p>
           </div>
           <div 
-            className="p-4 bg-red-50 rounded-lg cursor-pointer hover:bg-red-100 transition-colors"
+            className="p-4 bg-finance-expense-light rounded-xl cursor-pointer hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
             onClick={() => navigate('/transactions?type=expense')}
           >
-            <p className="text-sm text-red-700 mb-1">Expense</p>
-            <p className="text-2xl font-bold text-red-600">{formatCurrency(monthExpense)}</p>
+            <p className="text-sm text-finance-expense font-medium mb-1">Expense</p>
+            <p className="text-2xl font-bold text-finance-expense">{formatCurrency(monthExpense)}</p>
           </div>
-          <div className="p-4 bg-primary-gray-100 rounded-lg">
-            <p className="text-sm text-primary-gray-700 mb-1">Balance</p>
-            <p className="text-2xl font-bold text-primary-black">
+          <div className="p-4 bg-blue-50 rounded-xl">
+            <p className="text-sm text-brand-primary font-medium mb-1">Balance</p>
+            <p className="text-2xl font-bold text-brand-primary">
               {formatCurrency(monthIncome - monthExpense)}
             </p>
           </div>
@@ -118,19 +121,19 @@ const DashboardPage = () => {
 
       {/* Category Breakdown */}
       {analytics.categoryTotals.length > 0 && (
-        <div className="card">
-          <h2 className="text-xl font-semibold text-primary-black mb-4">Category Breakdown</h2>
+        <div className="card animate-card-in">
+          <h2 className="text-xl font-semibold text-text-primary mb-4">Category Breakdown</h2>
           <div className="space-y-3">
             {analytics.categoryTotals.map((cat) => (
-              <div key={cat.id} className="flex items-center justify-between">
+              <div key={cat.id} className="flex items-center justify-between p-3 rounded-xl hover:bg-primary-gray-50 transition-colors">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{cat.icon}</span>
                   <div>
-                    <p className="font-medium text-primary-black">{cat.name}</p>
-                    <p className="text-sm text-primary-gray-600">{cat.count} transactions</p>
+                    <p className="font-medium text-text-primary">{cat.name}</p>
+                    <p className="text-sm text-text-secondary">{cat.count} transactions</p>
                   </div>
                 </div>
-                <p className="text-lg font-semibold text-primary-black">
+                <p className="text-lg font-semibold text-text-primary">
                   {formatCurrency(cat.total)}
                 </p>
               </div>

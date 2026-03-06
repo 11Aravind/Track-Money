@@ -5,11 +5,11 @@ import { Edit2, Trash2 } from 'lucide-react';
 import Button from '../common/Button';
 
 const typeConfig = {
-  income:  { bg: 'bg-green-50',  text: 'text-green-600',  sign: '+' },
-  expense: { bg: 'bg-red-50',    text: 'text-red-600',    sign: '-' },
-  savings: { bg: 'bg-blue-50',   text: 'text-blue-600',   sign: '-' },
-  lent:    { bg: 'bg-orange-50',  text: 'text-orange-600', sign: '-' },
-  borrow:  { bg: 'bg-purple-50', text: 'text-purple-600', sign: '+' },
+  income:  { bg: 'bg-finance-income-light',  text: 'text-finance-income',  sign: '+' },
+  expense: { bg: 'bg-finance-expense-light',  text: 'text-finance-expense',  sign: '-' },
+  savings: { bg: 'bg-finance-savings-light',  text: 'text-finance-savings',  sign: '-' },
+  lent:    { bg: 'bg-finance-lent-light',     text: 'text-finance-lent',     sign: '-' },
+  borrow:  { bg: 'bg-finance-borrow-light',   text: 'text-finance-borrow',   sign: '+' },
 };
 
 const TransactionItem = ({ transaction, category, onEdit }) => {

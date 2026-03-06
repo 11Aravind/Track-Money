@@ -6,98 +6,98 @@
 
 @layer base {
   * {
-    @apply border-primary-gray-200;
+    @apply border-surface-border;
   }
   
   body {
-    @apply bg-white text-primary-black font-sans antialiased;
+    @apply bg-surface-bg text-text-primary font-sans antialiased;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold;
+    @apply font-semibold text-text-primary;
   }
 }
 
 @layer components {
-  /* Premium Card Styles */
+  /* ==================== Cards ==================== */
   .card {
-    @apply bg-white border border-primary-gray-200 rounded-lg shadow-premium p-6 transition-all duration-300;
+    @apply bg-surface-card rounded-2xl shadow-card p-6 transition-all duration-300 border border-surface-border-light;
   }
   
   .card:hover {
-    @apply shadow-premium-lg;
+    @apply shadow-card-hover;
   }
-  
-  /* Button Styles */
+
+  /* ==================== Buttons ==================== */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 whitespace-nowrap;
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 whitespace-nowrap;
   }
   
   .btn-primary {
-    @apply bg-primary-black text-primary-white hover:bg-primary-gray-800 focus:ring-primary-gray-700;
+    @apply bg-brand-primary text-white hover:bg-brand-primary-light focus:ring-brand-primary shadow-sm hover:shadow-md;
   }
   
   .btn-secondary {
-    @apply bg-white text-primary-black border border-primary-gray-300 hover:bg-primary-gray-50 focus:ring-primary-gray-300;
+    @apply bg-white text-text-primary border border-surface-border hover:bg-primary-gray-50 focus:ring-primary-gray-300;
   }
   
   .btn-danger {
-    @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+    @apply bg-finance-expense text-white hover:bg-red-500 focus:ring-red-400;
   }
-  
-  /* Input Styles */
+
+  /* ==================== Inputs ==================== */
   .input {
-    @apply w-full px-4 py-2 border border-primary-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-black focus:border-transparent transition-all duration-200;
+    @apply w-full px-4 py-2.5 border border-surface-border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary transition-all duration-200 text-text-primary;
   }
   
   .input:disabled {
     @apply bg-primary-gray-100 cursor-not-allowed;
   }
-  
-  /* Label Styles */
+
+  /* ==================== Labels ==================== */
   .label {
-    @apply block text-sm font-medium text-primary-gray-700 mb-2;
+    @apply block text-sm font-medium text-text-secondary mb-2;
   }
-  
-  /* Loading Skeleton */
+
+  /* ==================== Skeleton ==================== */
   .skeleton {
-    @apply animate-pulse bg-primary-gray-200 rounded;
+    @apply animate-pulse bg-primary-gray-200 rounded-xl;
   }
-  
-  /* Stats Card */
+
+  /* ==================== Stats Card ==================== */
   .stats-card {
-    @apply card flex flex-col;
+    @apply card flex flex-col animate-card-in;
   }
   
   .stats-value {
-    @apply text-3xl font-bold text-primary-black;
+    @apply text-3xl font-bold text-text-primary;
   }
   
   .stats-label {
-    @apply text-sm text-primary-gray-600 mt-1;
+    @apply text-sm text-text-secondary mt-1;
   }
-  
-  /* Transaction Item */
+
+  /* ==================== Transaction Item ==================== */
   .transaction-item {
-    @apply flex items-center justify-between p-4 border-b border-primary-gray-200 hover:bg-primary-gray-50 transition-colors duration-200;
+    @apply flex items-center justify-between p-4 border-b border-surface-border-light hover:bg-primary-gray-50 transition-colors duration-200;
   }
-  
-  /* Modal Overlay */
+
+  /* ==================== Modal ==================== */
   .modal-overlay {
-    @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fade-in;
+    @apply fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in;
   }
   
   .modal-content {
-    @apply bg-white rounded-lg shadow-premium-lg max-w-md w-full mx-4 animate-slide-up;
+    @apply bg-surface-card rounded-2xl shadow-premium-xl max-w-md w-full mx-4 animate-scale-in;
   }
-  
-  /* Navigation */
+
+  /* ==================== Navigation ==================== */
   .nav-link {
-    @apply flex items-center gap-3 px-4 py-3 rounded-lg text-primary-gray-700 hover:bg-primary-gray-100 transition-colors duration-200;
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-blue-200/80 hover:bg-white/10 hover:text-white transition-all duration-200;
   }
   
   .nav-link.active {
-    @apply bg-primary-black text-primary-white;
+    @apply bg-white/15 text-white font-medium;
   }
 }
 
@@ -113,5 +113,13 @@
   
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Hover scale for cards */
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+  .hover-lift:hover {
+    @apply -translate-y-1 shadow-card-hover;
   }
 }
