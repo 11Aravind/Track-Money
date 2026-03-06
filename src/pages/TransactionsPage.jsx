@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import useTransactions from '../hooks/useTransactions';
 import useCategories from '../hooks/useCategories';
 import TransactionList from '../components/transactions/TransactionList';
@@ -13,6 +14,8 @@ const TransactionsPage = () => {
   const { categories, loading: categoriesLoading } = useCategories();
   const [showModal, setShowModal] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState(null);
+  const [searchParams] = useSearchParams();
+  const initialType = searchParams.get('type') || 'all';
 
   const loading = transactionsLoading || categoriesLoading;
 
@@ -55,6 +58,7 @@ const TransactionsPage = () => {
         transactions={transactions}
         categories={categories}
         onEdit={handleEdit}
+        initialType={initialType}
       />
 
       <Modal

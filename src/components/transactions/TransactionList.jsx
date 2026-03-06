@@ -4,12 +4,12 @@ import { Search, Filter } from 'lucide-react';
 import { searchTransactions, filterByMonth, filterByCategory, filterByType } from '../../utils/calculations';
 import { getMonthOptions } from '../../utils/formatters';
 
-const TransactionList = ({ transactions, categories, onEdit }) => {
+const TransactionList = ({ transactions, categories, onEdit, initialType = 'all' }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedType, setSelectedType] = useState('all');
-  const [showFilters, setShowFilters] = useState(false);
+  const [selectedType, setSelectedType] = useState(initialType);
+  const [showFilters, setShowFilters] = useState(initialType !== 'all');
 
   // Apply filters
   let filteredTransactions = transactions;
