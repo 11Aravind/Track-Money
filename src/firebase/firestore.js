@@ -181,7 +181,10 @@ export const initializeDefaultCategories = async (userId) => {
     { name: 'Bills', type: 'expense', icon: '📄', color: '#F38181' },
     { name: 'Salary', type: 'income', icon: '💰', color: '#6BCF7F' },
     { name: 'Other Income', type: 'income', icon: '💵', color: '#51CF66' },
-    { name: 'Other Expense', type: 'expense', icon: '💸', color: '#FFA94D' }
+    { name: 'Other Expense', type: 'expense', icon: '💸', color: '#FFA94D' },
+    { name: 'Savings', type: 'savings', icon: '🏦', color: '#4A90D9' },
+    { name: 'Lent', type: 'lent', icon: '🤝', color: '#F59F00' },
+    { name: 'Borrow', type: 'borrow', icon: '🏧', color: '#9B59B6' }
   ];
 
   try {

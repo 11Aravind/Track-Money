@@ -82,6 +82,9 @@ const CategoryManager = ({ categories }) => {
 
   const incomeCategories = categories.filter(cat => cat.type === 'income');
   const expenseCategories = categories.filter(cat => cat.type === 'expense');
+  const savingsCategories = categories.filter(cat => cat.type === 'savings');
+  const lentCategories = categories.filter(cat => cat.type === 'lent');
+  const borrowCategories = categories.filter(cat => cat.type === 'borrow');
 
   const commonIcons = ['💰', '🍔', '⛽', '🛍️', '📄', '💵', '💸', '🏠', '🚗', '🎮', '📱', '✈️', '🏥', '📚'];
 
@@ -90,73 +93,52 @@ const CategoryManager = ({ categories }) => {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-primary-black">Categories</h2>
         <Button onClick={() => handleOpenModal()}>
-          <Plus size={20} className="mr-2" />
-          Add Category
+          <Plus size={20} />
+          <span className="hidden sm:inline">Add Category</span>
         </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <h3 className="text-lg font-semibold mb-4 text-primary-black">Income Categories</h3>
-          <div className="space-y-3">
-            {incomeCategories.map((category) => (
-              <Card key={category.id} className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{category.icon}</span>
-                  <div>
-                    <p className="font-medium text-primary-black">{category.name}</p>
-                    <p className="text-sm text-primary-gray-600">Income</p>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleOpenModal(category)}
-                    className="p-2 hover:bg-primary-gray-100 rounded-lg transition-colors"
-                  >
-                    <Edit2 size={16} />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(category.id)}
-                    className="p-2 hover:bg-red-50 rounded-lg transition-colors"
-                  >
-                    <Trash2 size={16} className="text-red-600" />
-                  </button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-semibold mb-4 text-primary-black">Expense Categories</h3>
-          <div className="space-y-3">
-            {expenseCategories.map((category) => (
-              <Card key={category.id} className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{category.icon}</span>
-                  <div>
-                    <p className="font-medium text-primary-black">{category.name}</p>
-                    <p className="text-sm text-primary-gray-600">Expense</p>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleOpenModal(category)}
-                    className="p-2 hover:bg-primary-gray-100 rounded-lg transition-colors"
-                  >
-                    <Edit2 size={16} />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(category.id)}
-                    className="p-2 hover:bg-red-50 rounded-lg transition-colors"
-                  >
-                    <Trash2 size={16} className="text-red-600" />
-                  </button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
+        {[
+          { title: 'Income Categories', items: incomeCategories, typeLabel: 'Income' },
+          { title: 'Expense Categories', items: expenseCategories, typeLabel: 'Expense' },
+          { title: 'Savings Categories', items: savingsCategories, typeLabel: 'Savings' },
+          { title: 'Lent Categories', items: lentCategories, typeLabel: 'Lent' },
+          { title: 'Borrow Categories', items: borrowCategories, typeLabel: 'Borrow' },
+        ].map((group) => (
+          group.items.length > 0 && (
+            <div key={group.typeLabel}>
+              <h3 className="text-lg font-semibold mb-4 text-primary-black">{group.title}</h3>
+              <div className="space-y-3">
+                {group.items.map((category) => (
+                  <Card key={category.id} className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{category.icon}</span>
+                      <div>
+                        <p className="font-medium text-primary-black">{category.name}</p>
+                        <p className="text-sm text-primary-gray-600">{group.typeLabel}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleOpenModal(category)}
+                        className="p-2 hover:bg-primary-gray-100 rounded-lg transition-colors"
+                      >
+                        <Edit2 size={16} />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(category.id)}
+                        className="p-2 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        <Trash2 size={16} className="text-red-600" />
+                      </button>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )
+        ))}
       </div>
 
       <Modal
@@ -177,29 +159,26 @@ const CategoryManager = ({ categories }) => {
 
           <div className="mb-4">
             <label className="label">Type</label>
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="type"
-                  value="expense"
-                  checked={formData.type === 'expense'}
-                  onChange={handleChange}
-                  className="w-4 h-4"
-                />
-                <span>Expense</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="type"
-                  value="income"
-                  checked={formData.type === 'income'}
-                  onChange={handleChange}
-                  className="w-4 h-4"
-                />
-                <span>Income</span>
-              </label>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { value: 'expense', label: 'Expense' },
+                { value: 'income', label: 'Income' },
+                { value: 'savings', label: 'Savings' },
+                { value: 'lent', label: 'Lent' },
+                { value: 'borrow', label: 'Borrow' },
+              ].map((typeOption) => (
+                <label key={typeOption.value} className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="type"
+                    value={typeOption.value}
+                    checked={formData.type === typeOption.value}
+                    onChange={handleChange}
+                    className="w-4 h-4"
+                  />
+                  <span>{typeOption.label}</span>
+                </label>
+              ))}
             </div>
           </div>
 

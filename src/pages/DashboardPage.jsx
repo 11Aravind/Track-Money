@@ -9,6 +9,7 @@ import LoadingSkeleton from '../components/common/LoadingSkeleton';
 import { Wallet, TrendingUp, TrendingDown, Plus } from 'lucide-react';
 import { formatCurrency, getMonthName } from '../utils/formatters';
 import { filterByMonth } from '../utils/calculations';
+import Button from '../components/common/Button';
 
 const DashboardPage = () => {
   const { transactions, loading: transactionsLoading } = useTransactions();
@@ -44,13 +45,10 @@ const DashboardPage = () => {
           <h1 className="text-3xl font-bold text-primary-black">Dashboard</h1>
           <p className="text-primary-gray-600 mt-1">Welcome to your expense tracker</p>
         </div>
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="btn btn-primary flex items-center gap-2"
-        >
+        <Button onClick={() => setShowAddModal(true)}>
           <Plus size={20} />
-          <span className="hidden md:inline">Add Transaction</span>
-        </button>
+          <span className="hidden sm:inline">Add Transaction</span>
+        </Button>
       </div>
 
       {/* Overall Stats */}
@@ -115,7 +113,7 @@ const DashboardPage = () => {
         <div className="card">
           <h2 className="text-xl font-semibold text-primary-black mb-4">Category Breakdown</h2>
           <div className="space-y-3">
-            {analytics.categoryTotals.slice(0, 5).map((cat) => (
+            {analytics.categoryTotals.map((cat) => (
               <div key={cat.id} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{cat.icon}</span>

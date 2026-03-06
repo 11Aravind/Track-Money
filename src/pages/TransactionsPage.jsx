@@ -46,8 +46,8 @@ const TransactionsPage = () => {
           <p className="text-primary-gray-600 mt-1">Manage your income and expenses</p>
         </div>
         <Button onClick={() => setShowModal(true)}>
-          <Plus size={20} className="mr-2" />
-          Add Transaction
+          <Plus size={20} />
+          <span className="hidden sm:inline">Add Transaction</span>
         </Button>
       </div>
 

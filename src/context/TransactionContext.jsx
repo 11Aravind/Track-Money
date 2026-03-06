@@ -4,6 +4,15 @@ import { subscribeToTransactions, subscribeToCategories } from '../firebase/fire
 
 const TransactionContext = createContext({});
 
+// TODO: Checklist for development tasks
+// - [x] Implement Google Authentication <!-- id: 9 -->
+//     - [x] Update `AuthContext.jsx` with Google Sign-In logic <!-- id: 10 -->
+//     - [x] Update `Login.jsx` with Google button <!-- id: 11 -->
+//     - [x] Update `Signup.jsx` with Google button <!-- id: 12 -->
+//     - [x] Verify Google Auth flow and category initialization <!-- id: 13 -->
+// - [x] Improve UI responsiveness <!-- id: 14 -->
+//     - [x] Fix "Add Transaction" button layout in laptop/mobile <!-- id: 15 -->
+//     - [x] Audit other buttons for consistency <!-- id: 16 -->
 export const useTransactionContext = () => {
   const context = useContext(TransactionContext);
   if (!context) {

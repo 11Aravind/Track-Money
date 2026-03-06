@@ -5,6 +5,9 @@ const StatsCard = ({ title, value, icon: Icon, trend, type = 'neutral' }) => {
   const colorClasses = {
     income: 'text-green-600 bg-green-50',
     expense: 'text-red-600 bg-red-50',
+    savings: 'text-blue-600 bg-blue-50',
+    lent: 'text-orange-600 bg-orange-50',
+    borrow: 'text-purple-600 bg-purple-50',
     neutral: 'text-primary-black bg-primary-gray-100'
   };
 

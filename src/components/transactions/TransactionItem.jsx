@@ -4,6 +4,14 @@ import { formatCurrency, formatDate } from '../../utils/formatters';
 import { Edit2, Trash2 } from 'lucide-react';
 import Button from '../common/Button';
 
+const typeConfig = {
+  income:  { bg: 'bg-green-50',  text: 'text-green-600',  sign: '+' },
+  expense: { bg: 'bg-red-50',    text: 'text-red-600',    sign: '-' },
+  savings: { bg: 'bg-blue-50',   text: 'text-blue-600',   sign: '-' },
+  lent:    { bg: 'bg-orange-50',  text: 'text-orange-600', sign: '-' },
+  borrow:  { bg: 'bg-purple-50', text: 'text-purple-600', sign: '+' },
+};
+
 const TransactionItem = ({ transaction, category, onEdit }) => {
   const [deleting, setDeleting] = useState(false);
 
@@ -17,12 +25,12 @@ const TransactionItem = ({ transaction, category, onEdit }) => {
     setDeleting(false);
   };
 
-  const isIncome = transaction.type === 'income';
+  const config = typeConfig[transaction.type] || typeConfig.expense;
 
   return (
     <div className="transaction-item">
       <div className="flex items-center gap-3 flex-1">
-        <div className={`p-2 rounded-lg ${isIncome ? 'bg-green-50' : 'bg-red-50'}`}>
+        <div className={`p-2 rounded-lg ${config.bg}`}>
           <span className="text-2xl">{category?.icon || '💰'}</span>
         </div>
         
@@ -43,8 +51,8 @@ const TransactionItem = ({ transaction, category, onEdit }) => {
       </div>
 
       <div className="flex items-center gap-3">
-        <p className={`text-lg font-semibold ${isIncome ? 'text-green-600' : 'text-red-600'}`}>
-          {isIncome ? '+' : '-'}{formatCurrency(transaction.amount)}
+        <p className={`text-lg font-semibold ${config.text}`}>
+          {config.sign}{formatCurrency(transaction.amount)}
         </p>
         
         <div className="flex gap-1">

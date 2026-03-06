@@ -99,6 +99,9 @@ const TransactionList = ({ transactions, categories, onEdit }) => {
                 <option value="all">All Types</option>
                 <option value="income">Income</option>
                 <option value="expense">Expense</option>
+                <option value="savings">Savings</option>
+                <option value="lent">Lent</option>
+                <option value="borrow">Borrow</option>
               </select>
             </div>
           </div>

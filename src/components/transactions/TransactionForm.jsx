@@ -91,29 +91,26 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
         <label className="label">Type</label>
-        <div className="flex gap-4">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="radio"
-              name="type"
-              value="expense"
-              checked={formData.type === 'expense'}
-              onChange={handleChange}
-              className="w-4 h-4"
-            />
-            <span>Expense</span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="radio"
-              name="type"
-              value="income"
-              checked={formData.type === 'income'}
-              onChange={handleChange}
-              className="w-4 h-4"
-            />
-            <span>Income</span>
-          </label>
+        <div className="flex flex-wrap gap-3">
+          {[
+            { value: 'expense', label: 'Expense' },
+            { value: 'income', label: 'Income' },
+            { value: 'savings', label: 'Savings' },
+            { value: 'lent', label: 'Lent' },
+            { value: 'borrow', label: 'Borrow' },
+          ].map((typeOption) => (
+            <label key={typeOption.value} className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="type"
+                value={typeOption.value}
+                checked={formData.type === typeOption.value}
+                onChange={handleChange}
+                className="w-4 h-4"
+              />
+              <span>{typeOption.label}</span>
+            </label>
+          ))}
         </div>
       </div>
 
