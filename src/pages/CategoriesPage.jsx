@@ -1,6 +1,6 @@
 import useCategories from '../hooks/useCategories';
 import CategoryManager from '../components/categories/CategoryManager';
-import LoadingSkeleton from '../components/common/LoadingSkeleton';
+import CoinLoader from '../components/common/CoinLoader';
 
 const CategoriesPage = () => {
   const { categories, loading } = useCategories();
@@ -8,7 +8,7 @@ const CategoriesPage = () => {
   if (loading) {
     return (
       <div>
-        <LoadingSkeleton type="card" count={4} />
+        <CoinLoader message="Loading categories..." />
       </div>
     );
   }

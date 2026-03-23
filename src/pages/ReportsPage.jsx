@@ -5,7 +5,7 @@ import CategoryPieChart from '../components/charts/CategoryPieChart';
 import MonthlyBarChart from '../components/charts/MonthlyBarChart';
 import TrendLineChart from '../components/charts/TrendLineChart';
 import Card from '../components/common/Card';
-import LoadingSkeleton from '../components/common/LoadingSkeleton';
+import CoinLoader from '../components/common/CoinLoader';
 
 const ReportsPage = () => {
   const { transactions, loading: transactionsLoading } = useTransactions();
@@ -17,7 +17,7 @@ const ReportsPage = () => {
   if (loading) {
     return (
       <div>
-        <LoadingSkeleton type="chart" count={3} />
+        <CoinLoader message="Loading reports..." />
       </div>
     );
   }

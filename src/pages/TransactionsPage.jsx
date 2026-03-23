@@ -6,7 +6,7 @@ import TransactionList from '../components/transactions/TransactionList';
 import TransactionForm from '../components/transactions/TransactionForm';
 import Modal from '../components/common/Modal';
 import Button from '../components/common/Button';
-import LoadingSkeleton from '../components/common/LoadingSkeleton';
+import CoinLoader from '../components/common/CoinLoader';
 import { Plus } from 'lucide-react';
 
 const TransactionsPage = () => {
@@ -36,7 +36,7 @@ const TransactionsPage = () => {
   if (loading) {
     return (
       <div>
-        <LoadingSkeleton type="transaction" count={5} />
+        <CoinLoader message="Loading transactions..." />
       </div>
     );
   }

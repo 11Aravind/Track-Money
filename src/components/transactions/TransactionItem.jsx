@@ -29,16 +29,16 @@ const TransactionItem = ({ transaction, category, onEdit }) => {
 
   return (
     <div className="transaction-item">
-      <div className="flex items-center gap-3 flex-1">
-        <div className={`p-2 rounded-lg ${config.bg}`}>
-          <span className="text-2xl">{category?.icon || '💰'}</span>
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        <div className={`p-2 rounded-lg flex-shrink-0 ${config.bg}`}>
+          <span className="text-xl sm:text-2xl">{category?.icon || '💰'}</span>
         </div>
         
         <div className="flex-1 min-w-0">
-          <p className="font-medium text-primary-black truncate">
+          <p className="font-medium text-primary-black truncate text-sm sm:text-base">
             {category?.name || 'Unknown'}
           </p>
-          <div className="flex items-center gap-2 text-sm text-primary-gray-600">
+          <div className="flex items-center gap-2 text-xs sm:text-sm text-primary-gray-600">
             <span>{formatDate(transaction.date)}</span>
             {transaction.note && (
               <>
@@ -50,8 +50,8 @@ const TransactionItem = ({ transaction, category, onEdit }) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
-        <p className={`text-lg font-semibold ${config.text}`}>
+      <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 w-full sm:w-auto">
+        <p className={`text-base sm:text-lg font-semibold ${config.text}`}>
           {config.sign}{formatCurrency(transaction.amount)}
         </p>
         

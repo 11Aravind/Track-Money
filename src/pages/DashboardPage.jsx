@@ -6,7 +6,7 @@ import useAnalytics from '../hooks/useAnalytics';
 import StatsCard from '../components/dashboard/StatsCard';
 import TransactionForm from '../components/transactions/TransactionForm';
 import Modal from '../components/common/Modal';
-import LoadingSkeleton from '../components/common/LoadingSkeleton';
+import CoinLoader from '../components/common/CoinLoader';
 import { Wallet, TrendingUp, TrendingDown, Plus } from 'lucide-react';
 import { formatCurrency, getMonthName } from '../utils/formatters';
 import { filterByMonth } from '../utils/calculations';
@@ -25,9 +25,7 @@ const DashboardPage = () => {
   if (loading) {
     return (
       <div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <LoadingSkeleton type="card" count={3} />
-        </div>
+        <CoinLoader message="Loading dashboard..." />
       </div>
     );
   }
