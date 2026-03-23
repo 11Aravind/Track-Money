@@ -13,6 +13,7 @@ import {
   writeBatch
 } from 'firebase/firestore';
 import { db } from './config';
+import { getFriendlyFirestoreError } from '../utils/errorMessages';
 
 // ==================== TRANSACTIONS ====================
 
@@ -27,7 +28,7 @@ export const addTransaction = async (userId, transactionData) => {
     return { success: true, id: docRef.id };
   } catch (error) {
     console.error('Error adding transaction:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: getFriendlyFirestoreError(error, 'add') };
   }
 };
 
@@ -41,7 +42,7 @@ export const updateTransaction = async (transactionId, transactionData) => {
     return { success: true };
   } catch (error) {
     console.error('Error updating transaction:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: getFriendlyFirestoreError(error, 'update') };
   }
 };
 
@@ -51,7 +52,7 @@ export const deleteTransaction = async (transactionId) => {
     return { success: true };
   } catch (error) {
     console.error('Error deleting transaction:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: getFriendlyFirestoreError(error, 'delete') };
   }
 };
 
@@ -70,7 +71,7 @@ export const getTransactions = async (userId) => {
     return { success: true, data: transactions };
   } catch (error) {
     console.error('Error getting transactions:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: getFriendlyFirestoreError(error, 'fetch') };
   }
 };
 
@@ -108,7 +109,7 @@ export const addCategory = async (userId, categoryData) => {
     return { success: true, id: docRef.id };
   } catch (error) {
     console.error('Error adding category:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: getFriendlyFirestoreError(error, 'add') };
   }
 };
 
@@ -119,7 +120,7 @@ export const updateCategory = async (categoryId, categoryData) => {
     return { success: true };
   } catch (error) {
     console.error('Error updating category:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: getFriendlyFirestoreError(error, 'update') };
   }
 };
 
@@ -129,7 +130,7 @@ export const deleteCategory = async (categoryId) => {
     return { success: true };
   } catch (error) {
     console.error('Error deleting category:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: getFriendlyFirestoreError(error, 'delete') };
   }
 };
 
@@ -147,7 +148,7 @@ export const getCategories = async (userId) => {
     return { success: true, data: categories };
   } catch (error) {
     console.error('Error getting categories:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: getFriendlyFirestoreError(error, 'fetch') };
   }
 };
 
@@ -201,6 +202,6 @@ export const initializeDefaultCategories = async (userId) => {
     return { success: true };
   } catch (error) {
     console.error('Error initializing categories:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: getFriendlyFirestoreError(error, 'add') };
   }
 };

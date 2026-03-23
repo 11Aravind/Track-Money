@@ -10,6 +10,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { initializeDefaultCategories } from '../firebase/firestore';
+import { getFriendlyError } from '../utils/errorMessages';
 
 const AuthContext = createContext({});
 
@@ -43,8 +44,9 @@ export const AuthProvider = ({ children }) => {
       await initializeDefaultCategories(result.user.uid);
       return { success: true, user: result.user };
     } catch (error) {
-      setError(error.message);
-      return { success: false, error: error.message };
+      const friendlyMsg = getFriendlyError(error);
+      setError(friendlyMsg);
+      return { success: false, error: friendlyMsg };
     }
   };
 
@@ -54,8 +56,9 @@ export const AuthProvider = ({ children }) => {
       const result = await signInWithEmailAndPassword(auth, email, password);
       return { success: true, user: result.user };
     } catch (error) {
-      setError(error.message);
-      return { success: false, error: error.message };
+      const friendlyMsg = getFriendlyError(error);
+      setError(friendlyMsg);
+      return { success: false, error: friendlyMsg };
     }
   };
 
@@ -73,8 +76,9 @@ export const AuthProvider = ({ children }) => {
       
       return { success: true, user: result.user };
     } catch (error) {
-      setError(error.message);
-      return { success: false, error: error.message };
+      const friendlyMsg = getFriendlyError(error);
+      setError(friendlyMsg);
+      return { success: false, error: friendlyMsg };
     }
   };
 
@@ -84,8 +88,9 @@ export const AuthProvider = ({ children }) => {
       await signOut(auth);
       return { success: true };
     } catch (error) {
-      setError(error.message);
-      return { success: false, error: error.message };
+      const friendlyMsg = getFriendlyError(error);
+      setError(friendlyMsg);
+      return { success: false, error: friendlyMsg };
     }
   };
 
