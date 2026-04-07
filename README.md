@@ -70,6 +70,16 @@ npm run build
 ```
 
 The production-ready files will be in the `dist` directory.
+ 
++### Deployment Configuration
++
++When deploying to a platform like Vercel or Netlify, you must add your domain to the **Authorized Domains** list in the Firebase Console:
++
++1. Go to [Firebase Console](https://console.firebase.google.com/)
++2. Navigate to **Authentication** > **Settings** > **Authorized domains**
++3. Click **Add domain** and enter your deployment URL (e.g., `track-money-ten.vercel.app`)
++4. Ensure all environment variables (from your `.env` file) are added to your hosting provider's dashboard.
++
 
 ## Firebase Setup
 

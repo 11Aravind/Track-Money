@@ -56,6 +56,7 @@ export const AuthProvider = ({ children }) => {
       const result = await signInWithEmailAndPassword(auth, email, password);
       return { success: true, user: result.user };
     } catch (error) {
+      console.error('Login error:', error);
       const friendlyMsg = getFriendlyError(error);
       setError(friendlyMsg);
       return { success: false, error: friendlyMsg };
@@ -76,6 +77,7 @@ export const AuthProvider = ({ children }) => {
       
       return { success: true, user: result.user };
     } catch (error) {
+      console.error('Google Sign-In error:', error);
       const friendlyMsg = getFriendlyError(error);
       setError(friendlyMsg);
       return { success: false, error: friendlyMsg };

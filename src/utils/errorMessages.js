@@ -18,6 +18,7 @@ const authErrorMap = {
   'auth/account-exists-with-different-credential': 'An account already exists with this email using a different sign-in method.',
   'auth/requires-recent-login': 'Please sign in again to complete this action.',
   'auth/operation-not-allowed': 'This sign-in method is not enabled. Please contact support.',
+  'auth/unauthorized-domain': 'This domain is not authorized for sign-in. Please add it to the authorized domains in Firebase Console.',
 };
 
 const firestoreErrorMap = {
