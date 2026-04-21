@@ -1,12 +1,12 @@
 export const calculateTotalIncome = (transactions) => {
   return transactions
-    .filter(t => t.type === 'income')
+    .filter(t => t.type === 'income' || t.type === 'borrow')
     .reduce((sum, t) => sum + (parseFloat(t.amount) || 0), 0);
 };
 
 export const calculateTotalExpense = (transactions) => {
   return transactions
-    .filter(t => t.type === 'expense')
+    .filter(t => t.type === 'expense' || t.type === 'savings' || t.type === 'lent')
     .reduce((sum, t) => sum + (parseFloat(t.amount) || 0), 0);
 };
 
@@ -70,7 +70,8 @@ export const getMonthlyData = (transactions, year) => {
     const date = t.date?.toDate ? t.date.toDate() : new Date(t.date);
     if (date.getFullYear() === year) {
       const month = date.getMonth();
-      if (t.type === 'income') {
+      const isInflow = t.type === 'income' || t.type === 'borrow';
+      if (isInflow) {
         monthlyData[month].income += parseFloat(t.amount) || 0;
       } else {
         monthlyData[month].expense += parseFloat(t.amount) || 0;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useTransactions from '../hooks/useTransactions';
 import useCategories from '../hooks/useCategories';
@@ -7,10 +7,13 @@ import StatsCard from '../components/dashboard/StatsCard';
 import TransactionForm from '../components/transactions/TransactionForm';
 import Modal from '../components/common/Modal';
 import CoinLoader from '../components/common/CoinLoader';
-import { Wallet, TrendingUp, TrendingDown, Plus } from 'lucide-react';
+import MonthlyBarChart from '../components/charts/MonthlyBarChart';
+import { Wallet, TrendingUp, TrendingDown, Plus, ArrowRight, History } from 'lucide-react';
 import { formatCurrency, getMonthName } from '../utils/formatters';
-import { filterByMonth } from '../utils/calculations';
+import { filterByMonth, calculateTotalIncome, calculateTotalExpense } from '../utils/calculations';
 import Button from '../components/common/Button';
+import TransactionItem from '../components/transactions/TransactionItem';
+import IconRenderer from '../components/common/IconRenderer';
 
 const DashboardPage = () => {
   const { transactions, loading: transactionsLoading } = useTransactions();
@@ -22,123 +25,197 @@ const DashboardPage = () => {
 
   const loading = transactionsLoading || categoriesLoading;
 
+  const recentTransactions = useMemo(() => {
+    return [...transactions]
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 5);
+  }, [transactions]);
+
+  const { monthIncome, monthExpense } = useMemo(() => {
+    const monthTransactions = filterByMonth(transactions, selectedMonth, analytics.currentYear);
+    return {
+      monthIncome: calculateTotalIncome(monthTransactions),
+      monthExpense: calculateTotalExpense(monthTransactions)
+    };
+  }, [transactions, selectedMonth, analytics.currentYear]);
+
   if (loading) {
     return (
-      <div>
-        <CoinLoader message="Loading dashboard..." />
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <CoinLoader />
       </div>
     );
   }
 
-  const monthTransactions = filterByMonth(transactions, selectedMonth, analytics.currentYear);
-  const monthIncome = monthTransactions
-    .filter(t => t.type === 'income')
-    .reduce((sum, t) => sum + parseFloat(t.amount), 0);
-  const monthExpense = monthTransactions
-    .filter(t => t.type === 'expense')
-    .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+  const getCategoryById = (id) => categories.find(cat => cat.id === id);
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
+    <div className="space-y-8 pb-12">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold text-text-primary">Dashboard</h1>
-          <p className="text-text-secondary mt-1">Welcome to your expense tracker</p>
+          <h1 className="text-3xl font-heading font-black text-text-primary tracking-widest uppercase">
+            Control Center<span className="text-cyber-accent-green">_</span>
+          </h1>
+          <p className="text-[10px] font-bold text-cyber-accent-blue tracking-[0.3em] uppercase mt-1 opacity-70">
+            Real-time Financial Telemetry
+          </p>
         </div>
-        <Button onClick={() => setShowAddModal(true)}>
-          <Plus size={20} />
-          <span className="hidden sm:inline">Add Transaction</span>
+        <Button onClick={() => setShowAddModal(true)} className="px-8 shadow-[0_0_20px_rgba(204,255,0,0.15)]">
+          <Plus size={18} className="mr-2" />
+          <span>New Entry</span>
         </Button>
       </div>
 
-      {/* Overall Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      {/* Overall Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatsCard
-          title="Total Balance"
+          title="Active Liquidity"
           value={analytics.balance}
           icon={Wallet}
           type="neutral"
-          className="animate-card-in"
+          className="border-surface-border-light"
         />
         <StatsCard
-          title="Total Income"
+          title="Positive Inflow"
           value={analytics.totalIncome}
           icon={TrendingUp}
           type="income"
-          className="animate-card-in-delay-1"
+          className="border-cyber-accent-green/10"
+          tags={analytics.incomeTags}
         />
         <StatsCard
-          title="Total Expense"
+          title="Resource Outflow"
           value={analytics.totalExpense}
           icon={TrendingDown}
           type="expense"
-          className="animate-card-in-delay-2"
+          className="border-cyber-accent-blue/10"
+          tags={analytics.expenseTags}
         />
       </div>
 
-      {/* Monthly Overview */}
-      <div className="card mb-6 animate-card-in">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-text-primary">Monthly Overview</h2>
-          <select
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-            className="input w-auto"
-          >
-            {Array.from({ length: 12 }, (_, i) => (
-              <option key={i} value={i}>
-                {getMonthName(i)}
-              </option>
-            ))}
-          </select>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left Column: Spending Trend */}
+        <div className="lg:col-span-8 space-y-8">
+          <div className="card border-surface-border-light bg-surface-overlay/20">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest">Temporal Analysis</h2>
+              <div className="flex items-center gap-2">
+                 <span className="text-[10px] font-bold text-cyber-accent-blue uppercase tracking-widest opacity-60">Cycle 2026</span>
+              </div>
+            </div>
+            <div className="h-[300px]">
+              <MonthlyBarChart data={analytics.monthlyData} />
+            </div>
+          </div>
+
+          <div className="card border-surface-border-light bg-surface-overlay/20">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+                <History className="text-cyber-accent-green" size={16} />
+                <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest">Recent Buffers</h2>
+              </div>
+              <button 
+                onClick={() => navigate('/transactions')}
+                className="text-cyber-accent-blue text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:text-text-primary transition-colors"
+              >
+                Access Archives <ArrowRight size={12} />
+              </button>
+            </div>
+            <div className="divide-y divide-surface-border-light">
+              {recentTransactions.map(transaction => (
+                <TransactionItem 
+                  key={transaction.id}
+                  transaction={transaction}
+                  category={getCategoryById(transaction.category)}
+                  onEdit={() => navigate(`/transactions?edit=${transaction.id}`)}
+                />
+              ))}
+              {recentTransactions.length === 0 && (
+                <p className="py-8 text-center text-text-muted italic">No transactions yet.</p>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div 
-            className="p-4 bg-finance-income-light rounded-xl cursor-pointer hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
-            onClick={() => navigate('/transactions?type=income')}
-          >
-            <p className="text-sm text-finance-income font-medium mb-1">Income</p>
-            <p className="text-2xl font-bold text-finance-income">{formatCurrency(monthIncome)}</p>
+        {/* Right Column: Breakdown & Monthly Recap */}
+        <div className="lg:col-span-4 space-y-8">
+          <div className="card border-surface-border-light bg-surface-card/40">
+            <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest mb-8">Monthly Snapshot</h2>
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+              className="input mb-8 bg-input-bg border-surface-border uppercase text-[10px] font-bold tracking-widest text-text-primary"
+            >
+              {Array.from({ length: 12 }, (_, i) => (
+                <option key={i} value={i} className="bg-surface-card">
+                  {getMonthName(i)}
+                </option>
+              ))}
+            </select>
+
+            <div className="space-y-4">
+              <div className="p-5 bg-surface-overlay/40 rounded-xl border border-surface-border-light relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-1 h-full bg-cyber-accent-green opacity-20" />
+                <p className="text-[10px] font-bold text-cyber-accent-green uppercase tracking-widest mb-2">Total Inflow</p>
+                <p className="text-2xl font-heading font-black text-text-primary">{formatCurrency(monthIncome)}</p>
+              </div>
+              <div className="p-5 bg-surface-overlay/40 rounded-xl border border-surface-border-light relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-1 h-full bg-cyber-accent-blue opacity-20" />
+                <p className="text-[10px] font-bold text-cyber-accent-blue uppercase tracking-widest mb-2">Total Outflow</p>
+                <p className="text-2xl font-heading font-black text-text-primary">{formatCurrency(monthExpense)}</p>
+              </div>
+              <div className="p-5 bg-surface-overlay/40 rounded-xl border border-surface-border-light relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-1 h-full bg-surface-border opacity-20" />
+                <p className="text-[10px] font-bold text-text-muted-40 uppercase tracking-widest mb-2">Net Variance</p>
+                <p className={`text-2xl font-heading font-black ${monthIncome - monthExpense >= 0 ? 'text-cyber-accent-green' : 'text-cyber-accent-blue'}`}>
+                  {formatCurrency(monthIncome - monthExpense)}
+                </p>
+              </div>
+            </div>
           </div>
-          <div 
-            className="p-4 bg-finance-expense-light rounded-xl cursor-pointer hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
-            onClick={() => navigate('/transactions?type=expense')}
-          >
-            <p className="text-sm text-finance-expense font-medium mb-1">Expense</p>
-            <p className="text-2xl font-bold text-finance-expense">{formatCurrency(monthExpense)}</p>
-          </div>
-          <div className="p-4 bg-blue-50 rounded-xl">
-            <p className="text-sm text-brand-primary font-medium mb-1">Balance</p>
-            <p className="text-2xl font-bold text-brand-primary">
-              {formatCurrency(monthIncome - monthExpense)}
-            </p>
+
+          <div className="card border-surface-border-light bg-surface-overlay/20">
+            <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest mb-8">Traffic Distribution</h2>
+            <div className="space-y-6">
+              {analytics.categoryTotals
+                .sort((a, b) => b.total - a.total)
+                .slice(0, 5)
+                .map((cat) => {
+                  const percentage = Math.round((cat.total / analytics.totalExpense) * 100) || 0;
+                  return (
+                    <div 
+                      key={cat.id} 
+                      className="group cursor-pointer"
+                      onClick={() => navigate(`/transactions?category=${cat.id}`)}
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-surface-card/5 border border-surface-border-light flex items-center justify-center group-hover:border-cyber-accent-green group-hover:bg-cyber-accent-green/10 transition-all duration-300">
+                            <IconRenderer iconName={cat.icon} className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-bold text-text-primary uppercase tracking-tighter group-hover:text-cyber-accent-green transition-colors">{cat.name}</p>
+                            <p className="text-[8px] font-bold text-text-muted-40 uppercase tracking-[0.1em]">{cat.count} txns • {percentage}%</p>
+                          </div>
+                        </div>
+                        <p className="text-sm font-heading font-black text-text-primary">{formatCurrency(cat.total)}</p>
+                      </div>
+                      <div className="h-1 w-full bg-surface-card/10 rounded-full overflow-hidden border border-surface-border-light">
+                        <div 
+                          className="h-full bg-cyber-accent-green transition-all duration-1000 group-hover:shadow-[0_0_8px_rgba(204,255,0,0.6)]" 
+                          style={{ width: `${percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              {analytics.categoryTotals.length === 0 && (
+                <p className="text-center text-text-muted py-4 italic">No data yet.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Category Breakdown */}
-      {analytics.categoryTotals.length > 0 && (
-        <div className="card animate-card-in">
-          <h2 className="text-xl font-semibold text-text-primary mb-4">Category Breakdown</h2>
-          <div className="space-y-3">
-            {analytics.categoryTotals.map((cat) => (
-              <div key={cat.id} className="flex items-center justify-between p-3 rounded-xl hover:bg-primary-gray-50 transition-colors">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{cat.icon}</span>
-                  <div>
-                    <p className="font-medium text-text-primary">{cat.name}</p>
-                    <p className="text-sm text-text-secondary">{cat.count} transactions</p>
-                  </div>
-                </div>
-                <p className="text-lg font-semibold text-text-primary">
-                  {formatCurrency(cat.total)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       <Modal
         isOpen={showAddModal}

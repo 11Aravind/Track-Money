@@ -176,16 +176,16 @@ export const subscribeToCategories = (userId, callback, onError) => {
 // Initialize default categories for new users
 export const initializeDefaultCategories = async (userId) => {
   const defaultCategories = [
-    { name: 'Food', type: 'expense', icon: '🍔', color: '#FF6B6B' },
-    { name: 'Petrol', type: 'expense', icon: '⛽', color: '#4ECDC4' },
-    { name: 'Shopping', type: 'expense', icon: '🛍️', color: '#95E1D3' },
-    { name: 'Bills', type: 'expense', icon: '📄', color: '#F38181' },
-    { name: 'Salary', type: 'income', icon: '💰', color: '#6BCF7F' },
-    { name: 'Other Income', type: 'income', icon: '💵', color: '#51CF66' },
-    { name: 'Other Expense', type: 'expense', icon: '💸', color: '#FFA94D' },
-    { name: 'Savings', type: 'savings', icon: '🏦', color: '#4A90D9' },
-    { name: 'Lent', type: 'lent', icon: '🤝', color: '#F59F00' },
-    { name: 'Borrow', type: 'borrow', icon: '🏧', color: '#9B59B6' }
+    { name: 'Food', type: 'expense', icon: 'Utensils', color: '#FF6B6B' },
+    { name: 'Petrol', type: 'expense', icon: 'Fuel', color: '#4ECDC4' },
+    { name: 'Shopping', type: 'expense', icon: 'ShoppingBag', color: '#95E1D3' },
+    { name: 'Bills', type: 'expense', icon: 'FileText', color: '#F38181' },
+    { name: 'Salary', type: 'income', icon: 'Banknote', color: '#6BCF7F' },
+    { name: 'Other Income', type: 'income', icon: 'Coins', color: '#51CF66' },
+    { name: 'Other Expense', type: 'expense', icon: 'Receipt', color: '#FFA94D' },
+    { name: 'Savings', type: 'savings', icon: 'Landmark', color: '#4A90D9' },
+    { name: 'Lent', type: 'lent', icon: 'Handshake', color: '#F59F00' },
+    { name: 'Borrow', type: 'borrow', icon: 'CreditCard', color: '#9B59B6' }
   ];
 
   try {

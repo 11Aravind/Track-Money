@@ -7,58 +7,44 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: {
-          primary: '#1E3A8A',
-          'primary-light': '#2548A8',
-          'primary-dark': '#162D6B',
-          secondary: '#10B981',
-          'secondary-light': '#34D399',
-          'secondary-dark': '#059669',
-        },
-        finance: {
-          income: '#22C55E',
-          'income-light': '#DCFCE7',
-          expense: '#EF4444',
-          'expense-light': '#FEE2E2',
-          savings: '#3B82F6',
-          'savings-light': '#DBEAFE',
-          lent: '#F59E0B',
-          'lent-light': '#FEF3C7',
-          borrow: '#8B5CF6',
-          'borrow-light': '#EDE9FE',
-        },
-        surface: {
-          bg: '#F8FAFC',
-          card: '#FFFFFF',
-          border: '#E2E8F0',
-          'border-light': '#F1F5F9',
-        },
-        text: {
-          primary: '#1F2937',
-          secondary: '#64748B',
-          muted: '#94A3B8',
-          inverse: '#FFFFFF',
-        },
-        // Keep backward compat
-        primary: {
-          black: '#1F2937',
-          white: '#FFFFFF',
-          gray: {
-            50: '#F8FAFC',
-            100: '#F1F5F9',
-            200: '#E2E8F0',
-            300: '#CBD5E1',
-            400: '#94A3B8',
-            500: '#64748B',
-            600: '#475569',
-            700: '#334155',
-            800: '#1E293B',
-            900: '#0F172A',
-          }
-        }
+        'cyber-bg': 'var(--bg-primary)',
+        'cyber-surface': 'var(--surface-card)',
+        'cyber-surface-light': 'var(--surface-card)',
+        'cyber-accent-green': 'var(--accent-green)',
+        'cyber-accent-blue': 'var(--accent-blue)',
+        'cyber-border': 'var(--surface-border)',
+        
+        'brand-primary': 'var(--accent-green)',
+        'brand-primary-light': 'var(--accent-green)',
+        'brand-primary-dark': 'var(--accent-green)',
+        'brand-secondary': 'var(--accent-blue)',
+        
+        'finance-income': 'var(--accent-green)',
+        'finance-expense': 'var(--accent-blue)',
+        'finance-savings': 'var(--accent-blue)',
+        'finance-lent': 'var(--accent-green)',
+        'finance-borrow': 'var(--accent-blue)',
+        
+        'surface-bg': 'var(--bg-primary)',
+        'surface-card': 'var(--surface-card)',
+        'surface-border': 'var(--surface-border)',
+        'surface-border-light': 'var(--surface-border-subtle)',
+        'surface-overlay': 'var(--surface-overlay)',
+        
+        'text-primary': 'var(--text-primary)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-muted': 'var(--text-muted)',
+        'text-muted-70': 'var(--text-muted-70)',
+        'text-muted-40': 'var(--text-muted-40)',
+        'text-inverse': 'var(--text-inverse)',
+        
+        // Aliases for cleaner @apply
+        'muted': 'var(--text-muted)',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+        heading: ['Space Grotesk', 'sans-serif'],
       },
       boxShadow: {
         'premium': '0 1px 3px 0 rgba(0,0,0,0.08), 0 1px 2px -1px rgba(0,0,0,0.04)',

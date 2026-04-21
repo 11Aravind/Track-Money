@@ -3,20 +3,21 @@ import { deleteTransaction } from '../../firebase/firestore';
 import { formatCurrency, formatDate } from '../../utils/formatters';
 import { Edit2, Trash2 } from 'lucide-react';
 import Button from '../common/Button';
+import IconRenderer from '../common/IconRenderer';
 
 const typeConfig = {
-  income:  { bg: 'bg-finance-income-light',  text: 'text-finance-income',  sign: '+' },
-  expense: { bg: 'bg-finance-expense-light',  text: 'text-finance-expense',  sign: '-' },
-  savings: { bg: 'bg-finance-savings-light',  text: 'text-finance-savings',  sign: '-' },
-  lent:    { bg: 'bg-finance-lent-light',     text: 'text-finance-lent',     sign: '-' },
-  borrow:  { bg: 'bg-finance-borrow-light',   text: 'text-finance-borrow',   sign: '+' },
+  income:  { border: 'border-cyber-accent-green/30', text: 'text-cyber-accent-green', sign: '+' },
+  expense: { border: 'border-cyber-accent-blue/30',  text: 'text-cyber-accent-blue',  sign: '-' },
+  savings: { border: 'border-cyber-accent-blue/30',  text: 'text-cyber-accent-blue',  sign: '-' },
+  lent:    { border: 'border-cyber-accent-blue/30',  text: 'text-cyber-accent-blue',  sign: '-' },
+  borrow:  { border: 'border-cyber-accent-green/30', text: 'text-cyber-accent-green', sign: '+' },
 };
 
 const TransactionItem = ({ transaction, category, onEdit }) => {
   const [deleting, setDeleting] = useState(false);
 
   const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete this transaction?')) {
+    if (!window.confirm('Terminate this data entry?')) {
       return;
     }
 
@@ -28,48 +29,53 @@ const TransactionItem = ({ transaction, category, onEdit }) => {
   const config = typeConfig[transaction.type] || typeConfig.expense;
 
   return (
-    <div className="transaction-item">
-      <div className="flex items-center gap-3 flex-1 min-w-0">
-        <div className={`p-2 rounded-lg flex-shrink-0 ${config.bg}`}>
-          <span className="text-xl sm:text-2xl">{category?.icon || '💰'}</span>
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 hover:bg-surface-card/2 transition-colors duration-300 border-b border-surface-border-light group">
+      <div className="flex items-center gap-4 flex-1 min-w-0 w-full sm:w-auto">
+        <div 
+          className={`w-12 h-12 rounded-xl flex items-center justify-center border-2 flex-shrink-0 transition-all duration-500 group-hover:scale-110 ${config.border}`}
+          style={{ backgroundColor: `${category?.color || '#007AFF'}15`, color: category?.color || '#007AFF' }}
+        >
+          <IconRenderer iconName={category?.icon} className="w-5 h-5" />
         </div>
         
         <div className="flex-1 min-w-0">
-          <p className="font-medium text-primary-black truncate text-sm sm:text-base">
-            {category?.name || 'Unknown'}
+          <p className="text-[10px] font-bold text-text-primary uppercase tracking-widest truncate mb-0.5 group-hover:text-cyber-accent-green transition-colors">
+            {category?.name || 'GENERIC_ENTRY'}
           </p>
-          <div className="flex items-center gap-2 text-xs sm:text-sm text-primary-gray-600">
-            <span>{formatDate(transaction.date)}</span>
+          <div className="flex items-center gap-2 text-[10px] font-mono text-text-muted-40 tracking-tighter overflow-hidden">
+            <span className="flex-shrink-0">{formatDate(transaction.date)}</span>
             {transaction.note && (
               <>
-                <span>•</span>
-                <span className="truncate">{transaction.note}</span>
+                <span className="opacity-30">|</span>
+                <span className="truncate italic group-hover:text-text-secondary transition-colors">{transaction.note}</span>
               </>
             )}
           </div>
         </div>
       </div>
 
-      <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-        <p className={`text-base sm:text-lg font-semibold ${config.text}`}>
-          {config.sign}{formatCurrency(transaction.amount)}
-        </p>
+      <div className="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto">
+        <div className="text-right">
+          <p className={`text-lg font-heading font-black tracking-tighter ${config.text}`}>
+            {config.sign}{formatCurrency(transaction.amount)}
+          </p>
+        </div>
         
-        <div className="flex gap-1">
+        <div className="flex gap-2 min-opacity-0 md:opacity-0 group-hover:opacity-100 transition-all transform md:translate-x-2 group-hover:translate-x-0">
           <button
             onClick={() => onEdit(transaction)}
-            className="p-2 hover:bg-primary-gray-100 rounded-lg transition-colors"
-            title="Edit"
+            className="w-8 h-8 flex border border-surface-border items-center justify-center hover:bg-surface-card/10 hover:border-cyber-accent-blue hover:text-cyber-accent-blue rounded-lg transition-all text-text-muted-40"
+            title="Update Entry"
           >
-            <Edit2 size={16} className="text-primary-gray-600" />
+            <Edit2 size={14} />
           </button>
           <button
             onClick={handleDelete}
             disabled={deleting}
-            className="p-2 hover:bg-red-50 rounded-lg transition-colors"
-            title="Delete"
+            className="w-8 h-8 flex border border-surface-border items-center justify-center hover:bg-red-500/10 hover:border-red-500 hover:text-red-500 rounded-lg transition-all text-text-muted-40"
+            title="Terminate Entry"
           >
-            <Trash2 size={16} className="text-red-600" />
+            <Trash2 size={14} />
           </button>
         </div>
       </div>

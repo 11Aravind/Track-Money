@@ -30,16 +30,18 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
         className={`modal-content ${sizeClasses[size]}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-4 md:p-6 border-b border-primary-gray-200 flex-shrink-0">
-          <h2 className="text-lg md:text-xl font-semibold text-primary-black">{title}</h2>
+        <div className="flex items-center justify-between p-5 md:p-8 border-b border-surface-border flex-shrink-0">
+          <h2 className="text-xl md:text-2xl font-heading font-black text-text-primary uppercase tracking-tight">
+            {title}
+          </h2>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-primary-gray-100 rounded-lg transition-colors"
+            className="w-10 h-10 flex border border-surface-border items-center justify-center bg-surface-card/40 hover:bg-surface-card hover:border-cyber-accent-blue rounded-xl transition-all text-text-muted-70 hover:text-cyber-accent-blue shadow-sm"
           >
             <X size={20} />
           </button>
         </div>
-        <div className="p-4 md:p-6 overflow-y-auto flex-1">
+        <div className="p-5 md:p-8 overflow-y-auto flex-1 scrollbar-hide">
           {children}
         </div>
       </div>

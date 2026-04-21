@@ -16,6 +16,7 @@ const TransactionsPage = () => {
   const [editingTransaction, setEditingTransaction] = useState(null);
   const [searchParams] = useSearchParams();
   const initialType = searchParams.get('type') || 'all';
+  const initialCategory = searchParams.get('category') || 'all';
 
   const loading = transactionsLoading || categoriesLoading;
 
@@ -42,29 +43,36 @@ const TransactionsPage = () => {
   }
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
+    <div className="space-y-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold text-primary-black">Transactions</h1>
-          <p className="text-primary-gray-600 mt-1">Manage your income and expenses</p>
+          <h1 className="text-3xl font-heading font-black text-text-primary tracking-widest uppercase">
+            Data Ledger<span className="text-cyber-accent-green">_</span>
+          </h1>
+          <p className="text-[10px] font-bold text-cyber-accent-blue tracking-[0.3em] uppercase mt-1 opacity-70">
+            Historical Financial Records
+          </p>
         </div>
-        <Button onClick={() => setShowModal(true)}>
-          <Plus size={20} />
-          <span className="hidden sm:inline">Add Transaction</span>
+        <Button onClick={() => setShowModal(true)} className="px-8 shadow-[0_0_20px_rgba(204,255,0,0.15)]">
+          <Plus size={18} className="mr-2" />
+          <span>New Record</span>
         </Button>
       </div>
 
-      <TransactionList
-        transactions={transactions}
-        categories={categories}
-        onEdit={handleEdit}
-        initialType={initialType}
-      />
+      <div className="card border-white/5 bg-black/20 p-0 overflow-hidden">
+        <TransactionList
+          transactions={transactions}
+          categories={categories}
+          onEdit={handleEdit}
+          initialType={initialType}
+          initialCategory={initialCategory}
+        />
+      </div>
 
       <Modal
         isOpen={showModal}
         onClose={handleCloseModal}
-        title={editingTransaction ? 'Edit Transaction' : 'Add Transaction'}
+        title={editingTransaction ? 'Modify_Entry' : 'Initialize_Entry'}
         size="lg"
       >
         <TransactionForm

@@ -1,7 +1,7 @@
 import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { formatCurrency } from '../../utils/formatters';
 
-const COLORS = ['#000000', '#374151', '#6B7280', '#9CA3AF', '#D1D5DB', '#E5E7EB'];
+const COLORS = ['#6366F1', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4', '#F97316'];
 
 const CategoryPieChart = ({ data }) => {
   const chartData = data.map((item) => ({

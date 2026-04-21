@@ -4,7 +4,7 @@ import MobileNav from './MobileNav';
 
 const Layout = ({ children }) => {
   return (
-    <div className="flex min-h-screen bg-primary-gray-50">
+    <div className="flex min-h-screen bg-cyber-bg transition-colors duration-300">
       <Sidebar />
       
       <div className="flex-1 flex flex-col">

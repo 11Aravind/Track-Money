@@ -6,6 +6,8 @@ import Button from '../common/Button';
 import Card from '../common/Card';
 import Modal from '../common/Modal';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
+import IconRenderer from '../common/IconRenderer';
+import { FEATURED_ICONS, EMOJI_TO_LUCIDE } from '../../utils/iconMapping';
 
 const CategoryManager = ({ categories }) => {
   const { user } = useAuth();
@@ -22,10 +24,12 @@ const CategoryManager = ({ categories }) => {
   const handleOpenModal = (category = null) => {
     if (category) {
       setEditingCategory(category);
+      // Migrate emoji to Lucide if applicable
+      const iconValue = EMOJI_TO_LUCIDE[category.icon] || category.icon;
       setFormData({
         name: category.name,
         type: category.type,
-        icon: category.icon,
+        icon: iconValue,
         color: category.color
       });
     } else {
@@ -33,7 +37,7 @@ const CategoryManager = ({ categories }) => {
       setFormData({
         name: '',
         type: 'expense',
-        icon: '💰',
+        icon: 'Utensils',
         color: '#FF6B6B'
       });
     }
@@ -43,6 +47,7 @@ const CategoryManager = ({ categories }) => {
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingCategory(null);
+    setLoading(false);
   };
 
   const handleChange = (e) => {
@@ -86,51 +91,59 @@ const CategoryManager = ({ categories }) => {
   const lentCategories = categories.filter(cat => cat.type === 'lent');
   const borrowCategories = categories.filter(cat => cat.type === 'borrow');
 
-  const commonIcons = ['💰', '🍔', '⛽', '🛍️', '📄', '💵', '💸', '🏠', '🚗', '🎮', '📱', '✈️', '🏥', '📚'];
-
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-primary-black">Categories</h2>
+        <h2 className="text-2xl font-heading font-black text-text-primary tracking-widest uppercase">
+          System Segments<span className="text-cyber-accent-green">_</span>
+        </h2>
         <Button onClick={() => handleOpenModal()}>
           <Plus size={20} />
-          <span className="hidden sm:inline">Add Category</span>
+          <span className="hidden sm:inline">Initialize Segment</span>
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {[
-          { title: 'Income Categories', items: incomeCategories, typeLabel: 'Income' },
-          { title: 'Expense Categories', items: expenseCategories, typeLabel: 'Expense' },
-          { title: 'Savings Categories', items: savingsCategories, typeLabel: 'Savings' },
-          { title: 'Lent Categories', items: lentCategories, typeLabel: 'Lent' },
-          { title: 'Borrow Categories', items: borrowCategories, typeLabel: 'Borrow' },
+          { title: 'Inflow Vectors', items: incomeCategories, typeLabel: 'Income' },
+          { title: 'Outflow Vectors', items: expenseCategories, typeLabel: 'Expense' },
+          { title: 'Savings Buffers', items: savingsCategories, typeLabel: 'Savings' },
+          { title: 'Lent Assets', items: lentCategories, typeLabel: 'Lent' },
+          { title: 'Borrowed Liabilities', items: borrowCategories, typeLabel: 'Borrow' },
         ].map((group) => (
           group.items.length > 0 && (
-            <div key={group.typeLabel}>
-              <h3 className="text-lg font-semibold mb-4 text-primary-black">{group.title}</h3>
+            <div key={group.typeLabel} className="space-y-4">
+              <h3 className="text-[10px] font-bold text-text-muted-70 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+                <span className="w-1 h-1 bg-cyber-accent-blue rounded-full" />
+                {group.title}
+              </h3>
               <div className="space-y-3">
                 {group.items.map((category) => (
-                  <Card key={category.id} className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">{category.icon}</span>
+                  <Card key={category.id} className="flex items-center justify-between group overflow-hidden border-surface-border-light bg-surface-overlay/20">
+                    <div className="flex items-center gap-4">
+                      <div 
+                        className="p-2.5 rounded-xl border transition-all duration-500 group-hover:scale-110"
+                        style={{ backgroundColor: `${category.color}15`, color: category.color, borderColor: `${category.color}30` }}
+                      >
+                        <IconRenderer iconName={category.icon} className="w-6 h-6" />
+                      </div>
                       <div>
-                        <p className="font-medium text-primary-black">{category.name}</p>
-                        <p className="text-sm text-primary-gray-600">{group.typeLabel}</p>
+                        <p className="text-xs font-bold text-text-primary uppercase tracking-widest group-hover:text-cyber-accent-green transition-colors">{category.name}</p>
+                        <p className="text-[8px] font-mono text-text-muted-40 uppercase tracking-tighter">{group.typeLabel}_TYPE</p>
                       </div>
                     </div>
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleOpenModal(category)}
-                        className="p-2 hover:bg-primary-gray-100 rounded-lg transition-colors"
+                        className="p-2 hover:bg-surface-card/10 rounded-lg transition-all text-text-muted-40 hover:text-cyber-accent-blue"
                       >
                         <Edit2 size={16} />
                       </button>
                       <button
                         onClick={() => handleDelete(category.id)}
-                        className="p-2 hover:bg-red-50 rounded-lg transition-colors"
+                        className="p-2 hover:bg-red-500/10 rounded-lg transition-all text-text-muted-40 hover:text-red-500"
                       >
-                        <Trash2 size={16} className="text-red-600" />
+                        <Trash2 size={16} />
                       </button>
                     </div>
                   </Card>
@@ -184,19 +197,20 @@ const CategoryManager = ({ categories }) => {
 
           <div className="mb-4">
             <label className="label">Icon</label>
-            <div className="grid grid-cols-7 gap-2 mb-2">
-              {commonIcons.map((icon) => (
+            <div className="grid grid-cols-6 gap-2 mb-2">
+              {FEATURED_ICONS.map((item) => (
                 <button
-                  key={icon}
+                  key={item.icon}
                   type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, icon }))}
-                  className={`p-2 text-2xl rounded-lg border-2 transition-all ${
-                    formData.icon === icon 
-                      ? 'border-primary-black bg-primary-gray-100' 
-                      : 'border-primary-gray-200 hover:border-primary-gray-400'
+                  onClick={() => setFormData(prev => ({ ...prev, icon: item.icon }))}
+                  className={`p-3 flex items-center justify-center rounded-xl border-2 transition-all ${
+                    formData.icon === item.icon 
+                      ? 'border-brand-primary bg-indigo-50 text-brand-primary' 
+                      : 'border-slate-100 hover:border-slate-200 text-slate-500'
                   }`}
+                  title={item.name}
                 >
-                  {icon}
+                  <IconRenderer iconName={item.icon} className="w-6 h-6" />
                 </button>
               ))}
             </div>

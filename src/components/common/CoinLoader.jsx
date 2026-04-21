@@ -13,12 +13,6 @@ const CoinLoader = ({ message = 'Loading...' }) => {
         </div>
         <div className="coin-shadow"></div>
       </div>
-      <p className="coin-loader-text">{message}</p>
-      <div className="coin-loader-dots">
-        <span className="coin-dot"></span>
-        <span className="coin-dot"></span>
-        <span className="coin-dot"></span>
-      </div>
     </div>
   );
 };

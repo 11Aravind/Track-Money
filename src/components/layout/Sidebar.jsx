@@ -16,7 +16,6 @@ const Sidebar = () => {
   const navItems = [
     { path: '/dashboard', icon: Home, label: 'Dashboard' },
     { path: '/transactions', icon: ArrowLeftRight, label: 'Transactions' },
-    { path: '/categories', icon: Grid3X3, label: 'Categories' },
     { path: '/reports', icon: PieChart, label: 'Reports' },
     { path: '/settings', icon: Settings, label: 'Settings' }
   ];
@@ -26,10 +25,14 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="hidden md:flex md:flex-col w-64 bg-brand-primary min-h-screen">
-      <div className="p-6 border-b border-white/10">
-        <h1 className="text-2xl font-bold text-white">Trackify</h1>
-        <p className="text-sm text-blue-200/70 mt-1">Expense Tracker</p>
+    <aside className="hidden md:flex md:flex-col w-64 bg-surface-card/80 backdrop-blur-xl border-r border-surface-border min-h-screen sticky top-0 transition-all duration-500">
+      <div className="p-8 border-b border-surface-border">
+        <h1 className="text-2xl font-heading font-black text-text-primary tracking-tighter uppercase">
+          Trackify<span className="text-cyber-accent-green">.</span>
+        </h1>
+        <p className="text-[10px] font-bold text-cyber-accent-blue tracking-[0.2em] uppercase mt-1 opacity-80">
+          Precision Finance
+        </p>
       </div>
 
       <nav className="flex-1 p-4">
@@ -50,13 +53,13 @@ const Sidebar = () => {
         })}
       </nav>
 
-      <div className="p-4 border-t border-white/10">
+      <div className="p-4 border-t border-white/5">
         <button
           onClick={handleLogout}
-          className="nav-link w-full text-red-300 hover:bg-red-500/20 hover:text-red-200"
+          className="flex items-center gap-3 w-full px-4 py-3 text-[10px] font-bold tracking-widest text-red-500 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200 uppercase rounded-xl"
         >
-          <LogOut size={20} />
-          <span>Logout</span>
+          <LogOut size={16} />
+          <span>Logout System</span>
         </button>
       </div>
     </aside>

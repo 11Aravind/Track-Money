@@ -4,6 +4,7 @@ import { addTransaction, updateTransaction } from '../../firebase/firestore';
 import Input from '../common/Input';
 import Button from '../common/Button';
 import { formatDateInput } from '../../utils/formatters';
+import CategorySelector from '../categories/CategorySelector';
 
 const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
   const { user } = useAuth();
@@ -27,6 +28,24 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
       setErrors(prev => ({
         ...prev,
         [name]: ''
+      }));
+    }
+  };
+
+  const handleCategorySelect = (categoryId) => {
+    const selectedCategory = categories.find(cat => cat.id === categoryId);
+    if (!selectedCategory) return;
+
+    setFormData(prev => ({
+      ...prev,
+      category: categoryId,
+      type: selectedCategory.type
+    }));
+
+    if (errors.category) {
+      setErrors(prev => ({
+        ...prev,
+        category: ''
       }));
     }
   };
@@ -84,112 +103,92 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
     }
   };
 
-  // Filter categories by type
-  const filteredCategories = categories.filter(cat => cat.type === formData.type);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mb-4">
-        <label className="label">Type</label>
-        <div className="flex flex-wrap gap-3">
-          {[
-            { value: 'expense', label: 'Expense' },
-            { value: 'income', label: 'Income' },
-            { value: 'savings', label: 'Savings' },
-            { value: 'lent', label: 'Lent' },
-            { value: 'borrow', label: 'Borrow' },
-          ].map((typeOption) => (
-            <label key={typeOption.value} className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="type"
-                value={typeOption.value}
-                checked={formData.type === typeOption.value}
-                onChange={handleChange}
-                className="w-4 h-4"
-              />
-              <span>{typeOption.label}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      <Input
-        label="Amount"
-        type="number"
-        name="amount"
-        value={formData.amount}
-        onChange={handleChange}
-        placeholder="0.00"
-        required
-        error={errors.amount}
-        step="0.01"
-        min="0"
-      />
-
-      <div className="mb-4">
-        <label htmlFor="category" className="label">
-          Category <span className="text-red-500">*</span>
+    <form onSubmit={handleSubmit} className="space-y-8">
+      <div className="space-y-4">
+        <label className="label block border-b border-surface-border-light pb-2">
+          1. System Classification <span className="text-cyber-accent-blue opacity-50">*</span>
         </label>
-        <select
-          id="category"
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          required
-          className={`input ${errors.category ? 'border-red-500 focus:ring-red-500' : ''}`}
-        >
-          <option value="">Select a category</option>
-          {filteredCategories.map((cat) => (
-            <option key={cat.id} value={cat.id}>
-              {cat.icon} {cat.name}
-            </option>
-          ))}
-        </select>
+        <CategorySelector 
+          categories={categories}
+          selectedCategoryId={formData.category}
+          onSelect={handleCategorySelect}
+        />
         {errors.category && (
-          <p className="mt-1 text-sm text-red-500">{errors.category}</p>
+          <p className="mt-2 text-[10px] font-bold text-cyber-accent-blue uppercase tracking-widest animate-pulse">{errors.category}</p>
         )}
       </div>
 
-      <Input
-        label="Date"
-        type="date"
-        name="date"
-        value={formData.date}
-        onChange={handleChange}
-        required
-        error={errors.date}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="space-y-4">
+          <label className="label block border-b border-surface-border-light pb-2">
+            2. Quantum Amount <span className="text-cyber-accent-blue opacity-50">*</span>
+          </label>
+          <div className="relative group">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-cyber-accent-green font-heading font-black text-2xl group-focus-within:scale-110 transition-transform tracking-tighter">¥</span>
+            <input
+              type="number"
+              name="amount"
+              value={formData.amount}
+              onChange={handleChange}
+              placeholder="0.00"
+              required
+              step="0.01"
+              min="0"
+              className="w-full bg-input-bg border border-surface-border rounded-xl py-4 pl-12 pr-4 text-3xl font-heading font-black text-text-primary focus:outline-none focus:border-cyber-accent-green transition-all placeholder:text-text-muted-40"
+            />
+          </div>
+          {errors.amount && (
+            <p className="mt-2 text-[10px] font-bold text-cyber-accent-blue uppercase tracking-widest animate-pulse">{errors.amount}</p>
+          )}
+        </div>
 
-      <div className="mb-4">
-        <label htmlFor="note" className="label">
-          Note (Optional)
+        <div className="space-y-4">
+          <label className="label block border-b border-surface-border-light pb-2">
+            3. Temporal Marker <span className="text-cyber-accent-blue opacity-50">*</span>
+          </label>
+          <Input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            required
+            error={errors.date}
+            className="py-4 bg-input-bg text-sm font-mono tracking-tighter"
+          />
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <label htmlFor="note" className="label block border-b border-surface-border-light pb-2">
+          4. Buffer Metadata <span className="text-text-muted-40">(OPTIONAL)</span>
         </label>
         <textarea
           id="note"
           name="note"
           value={formData.note}
           onChange={handleChange}
-          placeholder="Add a note..."
+          placeholder="Append supplementary data..."
           rows="3"
-          className="input resize-none"
+          className="w-full px-4 py-4 border border-surface-border rounded-xl bg-input-bg focus:outline-none focus:border-cyber-accent-green transition-all text-text-primary placeholder:text-text-muted-40 resize-none font-mono text-xs tracking-tighter"
         />
       </div>
 
       {errors.submit && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-sm text-red-600">{errors.submit}</p>
+        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl animate-pulse">
+          <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest">CRITICAL_ERROR: {errors.submit}</p>
         </div>
       )}
 
-      <div className="flex gap-3">
+      <div className="flex gap-4 pt-4 border-t border-surface-border-light">
         <Button
           type="submit"
           variant="primary"
           disabled={loading}
-          className="flex-1"
+          className="flex-1 py-4 text-sm tracking-[0.2em]"
         >
-          {loading ? 'Saving...' : transaction ? 'Update' : 'Add Transaction'}
+          {loading ? 'PROCESSING...' : transaction ? 'SYNC_CHANGES' : 'INITIALIZE_ENTRY'}
         </Button>
         {onCancel && (
           <Button
@@ -197,8 +196,9 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
             variant="secondary"
             onClick={onCancel}
             disabled={loading}
+            className="px-8 py-4 text-sm tracking-[0.2em] border-cyber-accent-blue/30 text-cyber-accent-blue hover:bg-cyber-accent-blue/10"
           >
-            Cancel
+            ABORT
           </Button>
         )}
       </div>
