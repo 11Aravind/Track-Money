@@ -144,7 +144,7 @@ const DashboardPage = () => {
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-              className="input mb-8 bg-input-bg border-surface-border uppercase text-[10px] font-bold tracking-widest text-text-primary"
+              className="input mb-8 bg-surface-card border-surface-border uppercase text-[10px] font-bold tracking-widest text-text-primary"
             >
               {Array.from({ length: 12 }, (_, i) => (
                 <option key={i} value={i} className="bg-surface-card">

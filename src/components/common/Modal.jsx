@@ -41,7 +41,7 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
             <X size={20} />
           </button>
         </div>
-        <div className="p-5 md:p-8 overflow-y-auto flex-1 scrollbar-hide">
+        <div className="p-6 md:p-8 overflow-y-auto flex-1 custom-scrollbar pb-12">
           {children}
         </div>
       </div>

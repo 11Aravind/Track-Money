@@ -91,7 +91,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
           </h3>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="space-y-8">
           <Input
             label="Designation"
             placeholder="e.g. DATA_STREAM, HARDWARE, etc."
@@ -103,7 +103,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
 
           <div>
             <label className="label mb-4 block text-text-secondary">Visual Identifier</label>
-            <div className="grid grid-cols-6 gap-3 max-h-48 overflow-y-auto p-2 bg-input-bg rounded-xl border border-surface-border-light custom-scrollbar">
+            <div className="grid grid-cols-6 gap-3 max-h-48 overflow-y-auto p-2 bg-black/20 rounded-xl border border-surface-border-light custom-scrollbar">
               {FEATURED_ICONS.map((item) => (
                 <button
                   key={item.icon}
@@ -145,7 +145,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
 
           <div className="flex gap-4 pt-4">
             <Button 
-              type="submit" 
+              onClick={handleSubmit} 
               className="flex-1" 
               disabled={loading || !formData.name.trim()}
             >
@@ -159,7 +159,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
               Abort
             </Button>
           </div>
-        </form>
+        </div>
       </div>
     );
   }
@@ -167,7 +167,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
   return (
     <div className="space-y-6">
       {/* Tabs */}
-      <div className="flex p-1 bg-input-bg border border-surface-border-light rounded-xl">
+      <div className="flex p-1 bg-surface-card/40 border border-surface-border-light rounded-xl">
         {TABS.map((tab) => (
           <button
             key={tab.id}

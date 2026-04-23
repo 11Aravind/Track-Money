@@ -89,7 +89,7 @@ const ReportsPage = () => {
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-              className="w-full bg-input-bg border border-surface-border rounded-xl px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-text-primary focus:outline-none focus:border-cyber-accent-blue"
+              className="w-full bg-surface-card border border-surface-border rounded-xl px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-text-primary focus:outline-none focus:border-cyber-accent-blue"
             >
               {getMonthOptions().map((month) => (
                 <option key={month.value} value={month.value} className="bg-surface-card">
@@ -103,7 +103,7 @@ const ReportsPage = () => {
             <select
               value={selectedYear}
               onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-              className="w-full bg-input-bg border border-surface-border rounded-xl px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-text-primary focus:outline-none focus:border-cyber-accent-blue"
+              className="w-full bg-surface-card border border-surface-border rounded-xl px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-text-primary focus:outline-none focus:border-cyber-accent-blue"
             >
               {yearOptions.map(year => (
                 <option key={year} value={year} className="bg-surface-card">{year}</option>
@@ -112,7 +112,7 @@ const ReportsPage = () => {
           </div>
           <div className="space-y-3">
             <label className="label text-[8px] opacity-40">Flow_Classification</label>
-            <div className="flex bg-input-bg rounded-xl p-1 border border-surface-border">
+            <div className="flex bg-surface-card rounded-xl p-1 border border-surface-border">
               <button
                 onClick={() => setSelectedType('expense')}
                 className={`flex-1 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg transition-all ${

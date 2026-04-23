@@ -120,13 +120,13 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <label className="label block border-b border-surface-border-light pb-2">
             2. Quantum Amount <span className="text-cyber-accent-blue opacity-50">*</span>
           </label>
           <div className="relative group">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-cyber-accent-green font-heading font-black text-2xl group-focus-within:scale-110 transition-transform tracking-tighter">¥</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-cyber-accent-green font-heading font-black text-lg group-focus-within:scale-110 transition-transform tracking-tighter z-10">¥</span>
             <input
               type="number"
               name="amount"
@@ -136,11 +136,11 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
               required
               step="0.01"
               min="0"
-              className="w-full bg-input-bg border border-surface-border rounded-xl py-4 pl-12 pr-4 text-3xl font-heading font-black text-text-primary focus:outline-none focus:border-cyber-accent-green transition-all placeholder:text-text-muted-40"
+              className="w-full bg-surface-card border border-surface-border rounded-xl py-2 pl-10 pr-4 text-xl font-heading font-black text-text-primary focus:outline-none focus:border-cyber-accent-green transition-all placeholder:text-text-muted-40"
             />
           </div>
           {errors.amount && (
-            <p className="mt-2 text-[10px] font-bold text-cyber-accent-blue uppercase tracking-widest animate-pulse">{errors.amount}</p>
+            <p className="mt-2 text-[10px] font-bold text-red-500 uppercase tracking-widest animate-pulse">{errors.amount}</p>
           )}
         </div>
 
@@ -155,7 +155,7 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
             onChange={handleChange}
             required
             error={errors.date}
-            className="py-4 bg-input-bg text-sm font-mono tracking-tighter"
+            className="py-2 bg-surface-card text-xs font-mono tracking-tighter"
           />
         </div>
       </div>
@@ -170,8 +170,8 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
           value={formData.note}
           onChange={handleChange}
           placeholder="Append supplementary data..."
-          rows="3"
-          className="w-full px-4 py-4 border border-surface-border rounded-xl bg-input-bg focus:outline-none focus:border-cyber-accent-green transition-all text-text-primary placeholder:text-text-muted-40 resize-none font-mono text-xs tracking-tighter"
+          rows="2"
+          className="w-full px-4 py-2 border border-surface-border rounded-xl bg-surface-card focus:outline-none focus:border-cyber-accent-green transition-all text-text-primary placeholder:text-text-muted-40 resize-none font-mono text-xs tracking-tighter"
         />
       </div>
 
@@ -181,12 +181,12 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
         </div>
       )}
 
-      <div className="flex gap-4 pt-4 border-t border-surface-border-light">
+      <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-surface-border-light">
         <Button
           type="submit"
           variant="primary"
           disabled={loading}
-          className="flex-1 py-4 text-sm tracking-[0.2em]"
+          className="flex-1 py-4 text-xs font-black tracking-[0.2em] shadow-lg shadow-cyber-accent-green/10"
         >
           {loading ? 'PROCESSING...' : transaction ? 'SYNC_CHANGES' : 'INITIALIZE_ENTRY'}
         </Button>
@@ -196,7 +196,7 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
             variant="secondary"
             onClick={onCancel}
             disabled={loading}
-            className="px-8 py-4 text-sm tracking-[0.2em] border-cyber-accent-blue/30 text-cyber-accent-blue hover:bg-cyber-accent-blue/10"
+            className="px-8 py-4 text-[10px] font-bold tracking-[0.2em] border-surface-border text-text-muted-70 hover:bg-surface-card"
           >
             ABORT
           </Button>

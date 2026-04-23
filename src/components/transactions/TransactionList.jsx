@@ -51,7 +51,7 @@ const TransactionList = ({ transactions, categories, onEdit, initialType = 'all'
               placeholder="Query transaction database..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-input-bg border border-surface-border rounded-xl py-3.5 pl-12 pr-4 text-xs font-mono tracking-tighter text-text-primary focus:outline-none focus:border-cyber-accent-green transition-all placeholder:text-text-muted-40 placeholder:uppercase placeholder:font-bold placeholder:tracking-widest"
+              className="w-full bg-surface-card border border-surface-border rounded-xl py-3.5 pl-12 pr-4 text-xs font-mono tracking-tighter text-text-primary focus:outline-none focus:border-cyber-accent-green transition-all placeholder:text-text-muted-40 placeholder:uppercase placeholder:font-bold placeholder:tracking-widest"
             />
           </div>
           <button
@@ -73,7 +73,7 @@ const TransactionList = ({ transactions, categories, onEdit, initialType = 'all'
               <select
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(e.target.value)}
-                className="w-full bg-input-bg border border-surface-border rounded-xl px-4 py-2.5 text-[10px] font-bold uppercase tracking-widest text-text-primary focus:outline-none focus:border-cyber-accent-blue"
+                className="w-full bg-surface-card border border-surface-border rounded-xl px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-text-primary focus:outline-none focus:border-cyber-accent-blue"
               >
                 <option value="all" className="bg-surface-card">ALL_CYCLES</option>
                 {getMonthOptions().map((month) => (
@@ -89,7 +89,7 @@ const TransactionList = ({ transactions, categories, onEdit, initialType = 'all'
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full bg-input-bg border border-surface-border rounded-xl px-4 py-2.5 text-[10px] font-bold uppercase tracking-widest text-text-primary focus:outline-none focus:border-cyber-accent-blue"
+                className="w-full bg-surface-card border border-surface-border rounded-xl px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-text-primary focus:outline-none focus:border-cyber-accent-blue"
               >
                 <option value="all" className="bg-surface-card">ALL_SEGS</option>
                 {categories.map((cat) => (
@@ -105,7 +105,7 @@ const TransactionList = ({ transactions, categories, onEdit, initialType = 'all'
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="w-full bg-input-bg border border-surface-border rounded-xl px-4 py-2.5 text-[10px] font-bold uppercase tracking-widest text-text-primary focus:outline-none focus:border-cyber-accent-blue"
+                className="w-full bg-surface-card border border-surface-border rounded-xl px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-text-primary focus:outline-none focus:border-cyber-accent-blue"
               >
                 <option value="all" className="bg-surface-card">ALL_TYPES</option>
                 <option value="income" className="bg-surface-card">INFLOW</option>
