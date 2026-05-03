@@ -1,0 +1,114 @@
+import { createContext, useContext, useState, useEffect } from 'react';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+  getAdditionalUserInfo
+} from 'firebase/auth';
+import { auth } from '@trackify/api';
+import { initializeDefaultCategories } from '@trackify/api';
+import { getFriendlyError } from '@trackify/utils';
+
+const AuthContext = createContext({});
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+  return context;
+};
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const signup = async (email, password) => {
+    try {
+      setError(null);
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      // Initialize default categories for new user
+      await initializeDefaultCategories(result.user.uid);
+      return { success: true, user: result.user };
+    } catch (error) {
+      const friendlyMsg = getFriendlyError(error);
+      setError(friendlyMsg);
+      return { success: false, error: friendlyMsg };
+    }
+  };
+
+  const login = async (email, password) => {
+    try {
+      setError(null);
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      return { success: true, user: result.user };
+    } catch (error) {
+      console.error('Login error:', error);
+      const friendlyMsg = getFriendlyError(error);
+      setError(friendlyMsg);
+      return { success: false, error: friendlyMsg };
+    }
+  };
+
+  const googleSignIn = async () => {
+    try {
+      setError(null);
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      
+      // Check if it's a new user
+      const info = getAdditionalUserInfo(result);
+      if (info?.isNewUser) {
+        await initializeDefaultCategories(result.user.uid);
+      }
+      
+      return { success: true, user: result.user };
+    } catch (error) {
+      console.error('Google Sign-In error:', error);
+      const friendlyMsg = getFriendlyError(error);
+      setError(friendlyMsg);
+      return { success: false, error: friendlyMsg };
+    }
+  };
+
+  const logout = async () => {
+    try {
+      setError(null);
+      await signOut(auth);
+      return { success: true };
+    } catch (error) {
+      const friendlyMsg = getFriendlyError(error);
+      setError(friendlyMsg);
+      return { success: false, error: friendlyMsg };
+    }
+  };
+
+  const value = {
+    user,
+    loading,
+    error,
+    signup,
+    login,
+    googleSignIn,
+    logout
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

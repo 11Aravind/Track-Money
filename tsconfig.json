@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@trackify/ui/*": ["packages/ui/src/*"],
+      "@trackify/utils/*": ["packages/utils/src/*"],
+      "@trackify/api/*": ["packages/api/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
