@@ -11,15 +11,15 @@ const MonthlyBarChart = ({ data }) => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-cyber-surface/90 backdrop-blur-xl p-4 rounded-xl border border-white/10 shadow-2xl">
-          <p className="text-[10px] font-bold text-white uppercase tracking-widest mb-3 border-b border-white/5 pb-2">{label} TELEMETRY</p>
+        <div className="bg-surface-card/90 backdrop-blur-xl p-4 rounded-xl border border-surface-border shadow-premium-xl">
+          <p className="text-[10px] font-bold text-text-primary uppercase tracking-widest mb-3 border-b border-surface-border-light pb-2">{label} TELEMETRY</p>
           <div className="space-y-1.5">
             <p className="text-xs font-mono text-cyber-accent-green flex justify-between gap-8">
-              <span className="opacity-60">INFLOW:</span> 
+              <span className="opacity-60 uppercase">Inflow:</span> 
               <span className="font-bold">{formatCurrency(payload[0].value)}</span>
             </p>
             <p className="text-xs font-mono text-cyber-accent-blue flex justify-between gap-8">
-              <span className="opacity-60">OUTFLOW:</span> 
+              <span className="opacity-60 uppercase">Outflow:</span> 
               <span className="font-bold">{formatCurrency(payload[1].value)}</span>
             </p>
           </div>
@@ -31,35 +31,41 @@ const MonthlyBarChart = ({ data }) => {
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <RechartsBarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+      <RechartsBarChart 
+        data={chartData} 
+        margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+        barGap={4}
+        barCategoryGap="25%"
+      >
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-border)" vertical={false} />
         <XAxis 
           dataKey="month" 
-          stroke="rgba(255,255,255,0.2)" 
+          stroke="var(--surface-border)" 
           fontSize={10} 
-          tick={{ fill: 'rgba(255,255,255,0.4)', fontWeight: 700 }}
+          tick={{ fill: 'var(--text-secondary)', fontWeight: 700 }}
           axisLine={false}
           tickLine={false}
           dy={10}
+          interval={0}
         />
         <YAxis 
-          stroke="rgba(255,255,255,0.2)" 
+          stroke="var(--surface-border)" 
           fontSize={10}
-          tick={{ fill: 'rgba(255,255,255,0.4)', fontWeight: 700 }}
+          tick={{ fill: 'var(--text-secondary)', fontWeight: 700 }}
           axisLine={false}
           tickLine={false}
-          tickFormatter={(value) => `¥${value}`}
+          tickFormatter={(value) => `₹${value}`}
         />
-        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
+        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--surface-border)' }} />
         <Bar 
           dataKey="income" 
-          fill="#CCFF00" 
+          fill="var(--accent-green)" 
           radius={[4, 4, 0, 0]} 
           barSize={24}
         />
         <Bar 
           dataKey="expense" 
-          fill="#007AFF" 
+          fill="var(--accent-blue)" 
           radius={[4, 4, 0, 0]} 
           barSize={24}
         />

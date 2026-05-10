@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Plus, ChevronLeft, Check, Edit2 } from 'lucide-react';
 import IconRenderer from '../common/IconRenderer';
 import { FEATURED_ICONS } from '../../utils/iconMapping';
@@ -20,7 +20,29 @@ const COLORS = [
 
 const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState('expense');
+  const [activeTab, setActiveTab] = useState(() => {
+    if (selectedCategoryId) {
+      const selectedCategory = categories.find(cat => cat.id === selectedCategoryId);
+      if (selectedCategory) {
+        const tab = TABS.find(t => t.types.includes(selectedCategory.type));
+        return tab ? tab.id : 'expense';
+      }
+    }
+    return 'expense';
+  });
+
+  useEffect(() => {
+    if (selectedCategoryId) {
+      const selectedCategory = categories.find(cat => cat.id === selectedCategoryId);
+      if (selectedCategory) {
+        const tab = TABS.find(t => t.types.includes(selectedCategory.type));
+        if (tab && tab.id !== activeTab) {
+          setActiveTab(tab.id);
+        }
+      }
+    }
+  }, [selectedCategoryId, categories]);
+
   const [isAdding, setIsAdding] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -81,6 +103,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
       <div className="animate-in fade-in slide-in-from-right-4 duration-300">
         <div className="flex items-center gap-4 mb-8">
           <button 
+            type="button"
             onClick={() => setIsAdding(false)}
             className="w-10 h-10 flex border border-surface-border items-center justify-center hover:bg-surface-card/10 rounded-xl transition-all text-text-muted-70"
           >
@@ -171,6 +194,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
         {TABS.map((tab) => (
           <button
             key={tab.id}
+            type="button"
             onClick={() => setActiveTab(tab.id)}
             className={`flex-1 py-3 text-[10px] font-bold uppercase tracking-widest rounded-lg transition-all ${
               activeTab === tab.id 
@@ -189,6 +213,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
           {filteredCategories.map((category) => (
             <div key={category.id} className="relative group">
               <button
+                type="button"
                 onClick={() => onSelect(category.id)}
                 className={`flex flex-col items-center gap-3 p-4 rounded-xl border-2 transition-all w-full ${
                   selectedCategoryId === category.id
@@ -219,6 +244,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
 
               {/* Edit Trigger */}
               <button
+                type="button"
                 onClick={(e) => handleOpenEdit(e, category)}
                 className="absolute -top-1 -left-1 w-7 h-7 bg-surface-card border border-surface-border rounded-lg flex items-center justify-center text-text-muted-40 hover:text-text-primary hover:bg-cyber-accent-blue transition-all opacity-0 group-hover:opacity-100 z-10"
               >
@@ -229,6 +255,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
           
           {/* Add Button */}
           <button
+            type="button"
             onClick={handleOpenAdd}
             className="flex flex-col items-center gap-3 p-4 rounded-xl border-2 border-dashed border-surface-border-light hover:border-cyber-accent-green hover:bg-cyber-accent-green/5 transition-all group"
           >

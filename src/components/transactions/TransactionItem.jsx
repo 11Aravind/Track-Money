@@ -29,7 +29,7 @@ const TransactionItem = ({ transaction, category, onEdit }) => {
   const config = typeConfig[transaction.type] || typeConfig.expense;
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 hover:bg-surface-card/2 transition-colors duration-300 border-b border-surface-border-light group">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-7 hover:bg-surface-card/2 transition-colors duration-300 border-b border-surface-border-light group">
       <div className="flex items-center gap-4 flex-1 min-w-0 w-full sm:w-auto">
         <div 
           className={`w-12 h-12 rounded-xl flex items-center justify-center border-2 flex-shrink-0 transition-all duration-500 group-hover:scale-110 ${config.border}`}
@@ -39,18 +39,17 @@ const TransactionItem = ({ transaction, category, onEdit }) => {
         </div>
         
         <div className="flex-1 min-w-0">
-          <p className="text-[10px] font-bold text-text-primary uppercase tracking-widest truncate mb-0.5 group-hover:text-cyber-accent-green transition-colors">
-            {category?.name || 'GENERIC_ENTRY'}
+          <p className="text-sm font-extrabold text-text-primary tracking-tight truncate mb-0.5 group-hover:text-cyber-accent-green transition-colors">
+            {category?.name || 'Generic Entry'}
           </p>
-          <div className="flex items-center gap-2 text-[10px] font-mono text-text-muted-40 tracking-tighter overflow-hidden">
-            <span className="flex-shrink-0">{formatDate(transaction.date)}</span>
-            {transaction.note && (
-              <>
-                <span className="opacity-30">|</span>
-                <span className="truncate italic group-hover:text-text-secondary transition-colors">{transaction.note}</span>
-              </>
-            )}
-          </div>
+          <p className="text-[10px] font-medium text-text-muted-40 tracking-tight mb-1">
+            {formatDate(transaction.date)}
+          </p>
+          {transaction.note && (
+            <p className="text-[10px] text-text-muted-70 truncate italic group-hover:text-text-secondary transition-colors font-mono">
+              // {transaction.note}
+            </p>
+          )}
         </div>
       </div>
 
