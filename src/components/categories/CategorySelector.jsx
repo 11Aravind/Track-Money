@@ -4,7 +4,7 @@ import IconRenderer from '../common/IconRenderer';
 import { FEATURED_ICONS } from '../../utils/iconMapping';
 import Button from '../common/Button';
 import Input from '../common/Input';
-import { addCategory, updateCategory } from '../../firebase/firestore';
+import { addCategory, updateCategory, deleteCategory } from '../../firebase/firestore';
 import { useAuth } from '../../context/AuthContext';
 
 const TABS = [
@@ -98,6 +98,22 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
     setLoading(false);
   };
 
+  const handleDelete = async () => {
+    if (!editingCategory || loading) return;
+    
+    if (!window.confirm(`Terminate category "${editingCategory.name}"? This will not delete transactions, but they will become uncategorized.`)) {
+      return;
+    }
+
+    setLoading(true);
+    const result = await deleteCategory(editingCategory.id);
+    if (result.success) {
+      setIsAdding(false);
+      setEditingCategory(null);
+    }
+    setLoading(false);
+  };
+
   if (isAdding) {
     return (
       <div className="animate-in fade-in slide-in-from-right-4 duration-300">
@@ -181,6 +197,17 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
             >
               Abort
             </Button>
+            {editingCategory && (
+              <Button 
+                type="button" 
+                variant="danger" 
+                onClick={handleDelete}
+                className="ml-auto"
+                disabled={loading}
+              >
+                Delete
+              </Button>
+            )}
           </div>
         </div>
       </div>

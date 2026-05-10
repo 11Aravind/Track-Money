@@ -205,3 +205,43 @@ export const initializeDefaultCategories = async (userId) => {
     return { success: false, error: getFriendlyFirestoreError(error, 'add') };
   }
 };
+
+/**
+ * Merges two categories. All transactions from removeId will be moved to keepId.
+ * removeId category will be deleted.
+ */
+export const mergeCategories = async (userId, keepId, removeId) => {
+  try {
+    const batch = writeBatch(db);
+    
+    // 1. Get all transactions associated with the category to be removed
+    const q = query(
+      collection(db, 'transactions'),
+      where('userId', '==', userId),
+      where('category', '==', removeId)
+    );
+    
+    const querySnapshot = await getDocs(q);
+    
+    // 2. Update each transaction to the new category ID
+    querySnapshot.forEach((transactionDoc) => {
+      const transactionRef = doc(db, 'transactions', transactionDoc.id);
+      batch.update(transactionRef, { 
+        category: keepId,
+        updatedAt: serverTimestamp()
+      });
+    });
+    
+    // 3. Delete the redundant category
+    const categoryRef = doc(db, 'categories', removeId);
+    batch.delete(categoryRef);
+    
+    // 4. Commit everything
+    await batch.commit();
+    
+    return { success: true, count: querySnapshot.size };
+  } catch (error) {
+    console.error('Error merging categories:', error);
+    return { success: false, error: getFriendlyFirestoreError(error, 'update') };
+  }
+};
