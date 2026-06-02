@@ -4,7 +4,8 @@ import {
   ShieldCheck, Gift, Coffee, Dumbbell, Music, Wifi, Handshake, 
   Wallet, Landmark, CreditCard, TrendingDown, TrendingUp, UserCheck, 
   UserX, ShoppingBasket, Sprout, Tractor, Leaf, Trees, Wrench, 
-  Hammer, HardHat, Construction, Building, Fence, Droplets, Shovel
+  Hammer, HardHat, Construction, Building, Fence, Droplets, Shovel,
+  Train, Apple, Truck, PawPrint, Hourglass
 } from 'lucide-react';
 
 export const ICON_MAP: Record<string, any> = {
@@ -48,5 +49,10 @@ export const ICON_MAP: Record<string, any> = {
   'Building': Building,
   'Fence': Fence,
   'Droplets': Droplets,
-  'Shovel': Shovel
+  'Shovel': Shovel,
+  'Train': Train,
+  'Apple': Apple,
+  'Truck': Truck,
+  'PawPrint': PawPrint,
+  'Hourglass': Hourglass
 };

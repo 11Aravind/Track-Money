@@ -39,7 +39,12 @@ import {
   Building,
   Fence,
   Droplets,
-  Shovel
+  Shovel,
+  Train,
+  Apple,
+  Truck,
+  PawPrint,
+  Hourglass
 } from 'lucide-react';
 
 export const ICON_MAP = {
@@ -83,7 +88,12 @@ export const ICON_MAP = {
   'Building': Building,
   'Fence': Fence,
   'Droplets': Droplets,
-  'Shovel': Shovel
+  'Shovel': Shovel,
+  'Train': Train,
+  'Apple': Apple,
+  'Truck': Truck,
+  'PawPrint': PawPrint,
+  'Hourglass': Hourglass
 };
 
 export const FEATURED_ICONS = [
@@ -122,7 +132,12 @@ export const FEATURED_ICONS = [
   { name: 'Building', icon: 'Building' },
   { name: 'Fence', icon: 'Fence' },
   { name: 'Droplets', icon: 'Droplets' },
-  { name: 'Shovel', icon: 'Shovel' }
+  { name: 'Shovel', icon: 'Shovel' },
+  { name: 'Train', icon: 'Train' },
+  { name: 'Apple', icon: 'Apple' },
+  { name: 'Truck', icon: 'Truck' },
+  { name: 'PawPrint', icon: 'PawPrint' },
+  { name: 'Hourglass', icon: 'Hourglass' }
 ];
 
 // Emoji to Lucide mapping for migration

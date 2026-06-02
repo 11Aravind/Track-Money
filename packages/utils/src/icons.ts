@@ -4,7 +4,8 @@ export const ICON_NAMES = [
   'ShieldCheck', 'Gift', 'Coffee', 'Dumbbell', 'Music', 'Wifi', 'Handshake', 
   'Wallet', 'Landmark', 'CreditCard', 'TrendingDown', 'TrendingUp', 'UserCheck', 
   'UserX', 'ShoppingBasket', 'Sprout', 'Tractor', 'Leaf', 'Trees', 'Wrench', 
-  'Hammer', 'HardHat', 'Construction', 'Building', 'Fence', 'Droplets', 'Shovel'
+  'Hammer', 'HardHat', 'Construction', 'Building', 'Fence', 'Droplets', 'Shovel',
+  'Train', 'Apple', 'Truck', 'PawPrint', 'Hourglass'
 ];
 
 export const FEATURED_ICONS = ICON_NAMES.map(name => ({ name, icon: name }));
