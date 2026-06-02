@@ -59,7 +59,7 @@ const Sidebar = () => {
           className="flex items-center gap-3 w-full px-4 py-3 text-[10px] font-bold tracking-widest text-red-500 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200 uppercase rounded-xl"
         >
           <LogOut size={16} />
-          <span>Logout System</span>
+          <span>Logout</span>
         </button>
       </div>
     </aside>

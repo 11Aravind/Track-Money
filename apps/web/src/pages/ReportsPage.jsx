@@ -63,10 +63,10 @@ const ReportsPage = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-heading font-black text-text-primary tracking-widest uppercase">
-            Intelligence Reports<span className="text-cyber-accent-green">_</span>
+            Financial Reports
           </h1>
           <p className="text-[10px] font-bold text-cyber-accent-blue tracking-[0.3em] uppercase mt-1 opacity-70">
-            Deep-Dive Analytic Projection
+            Detailed Analytics
           </p>
         </div>
         <Button onClick={handleExport} variant="secondary" className="px-6 border-surface-border hover:border-text-primary/30">
@@ -79,11 +79,11 @@ const ReportsPage = () => {
       <div className="card border-surface-border-light bg-surface-overlay">
         <div className="flex items-center gap-3 mb-8">
           <Filter size={16} className="text-cyber-accent-blue" />
-          <h2 className="text-[10px] font-bold text-text-primary uppercase tracking-widest">Projection Parameters</h2>
+          <h2 className="text-[10px] font-bold text-text-primary uppercase tracking-widest">Report Filters</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           <div className="space-y-3">
-            <label className="label text-[8px] opacity-40">Temporal_Cycle</label>
+            <label className="label text-[8px] opacity-40">Month</label>
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
@@ -97,7 +97,7 @@ const ReportsPage = () => {
             </select>
           </div>
           <div className="space-y-3">
-            <label className="label text-[8px] opacity-40">Year_Identifier</label>
+            <label className="label text-[8px] opacity-40">Year</label>
             <select
               value={selectedYear}
               onChange={(e) => setSelectedYear(parseInt(e.target.value))}
@@ -109,7 +109,7 @@ const ReportsPage = () => {
             </select>
           </div>
           <div className="space-y-3">
-            <label className="label text-[8px] opacity-40">Flow_Classification</label>
+            <label className="label text-[8px] opacity-40">Transaction Type</label>
             <div className="flex bg-surface-card rounded-xl p-1 border border-surface-border">
               <button
                 onClick={() => setSelectedType('expense')}
@@ -129,7 +129,7 @@ const ReportsPage = () => {
                     : 'text-text-muted-40 hover:bg-surface-card/10'
                 }`}
               >
-                Inflow
+                Income
               </button>
             </div>
           </div>
@@ -144,7 +144,7 @@ const ReportsPage = () => {
               <PieChart size={20} />
             </div>
             <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest leading-relaxed">
-              {getMonthName(selectedMonth).toUpperCase()} {selectedType === 'expense' ? 'OUTFLOW' : 'INFLOW'} DISTRIBUTION
+              {getMonthName(selectedMonth).toUpperCase()} {selectedType === 'expense' ? 'EXPENSE' : 'INCOME'} DISTRIBUTION
             </h2>
           </div>
           <CategoryPieChart data={filteredData.categoryTotals} />
@@ -156,7 +156,7 @@ const ReportsPage = () => {
               <BarChart3 size={20} />
             </div>
             <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest leading-relaxed">
-               COMPARATIVE TELEMETRY ({selectedYear})
+               Monthly Comparison ({selectedYear})
             </h2>
           </div>
           <MonthlyBarChart data={analytics.monthlyData} />
@@ -168,7 +168,7 @@ const ReportsPage = () => {
               <TrendingUp size={20} />
             </div>
             <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest leading-relaxed">
-              LINEAR FLOW ANALYTICS
+              Income vs Expense Trend
             </h2>
           </div>
           <TrendLineChart data={analytics.monthlyData} />

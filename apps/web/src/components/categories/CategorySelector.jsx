@@ -87,14 +87,14 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
             <ChevronLeft size={20} />
           </button>
           <h3 className="text-xl font-heading font-black text-text-primary uppercase tracking-tight">
-            {editingCategory ? 'Modify System' : 'Initialize New'} Category
+            {editingCategory ? 'Edit' : 'Add New'} Category
           </h3>
         </div>
 
         <div className="space-y-8">
           <Input
-            label="Designation"
-            placeholder="e.g. DATA_STREAM, HARDWARE, etc."
+            label="Category Name"
+            placeholder="e.g. Groceries, Rent, Utilities, etc."
             value={formData.name}
             onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
             required
@@ -102,7 +102,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
           />
 
           <div>
-            <label className="label mb-4 block text-text-secondary">Visual Identifier</label>
+            <label className="label mb-4 block text-text-secondary">Select Icon</label>
             <div className="grid grid-cols-6 gap-3 max-h-48 overflow-y-auto p-2 bg-black/20 rounded-xl border border-surface-border-light custom-scrollbar">
               {FEATURED_ICONS.map((item) => (
                 <button
@@ -122,7 +122,7 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
           </div>
 
           <div>
-            <label className="label mb-4 block text-text-secondary">Core Signature</label>
+            <label className="label mb-4 block text-text-secondary">Select Color</label>
             <div className="flex flex-wrap gap-4 p-2">
               {COLORS.map((color) => (
                 <button
@@ -149,14 +149,14 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
               className="flex-1" 
               disabled={loading || !formData.name.trim()}
             >
-              {loading ? 'Processing...' : editingCategory ? 'Sync Changes' : 'Initialize'}
+              {loading ? 'Processing...' : editingCategory ? 'Save Changes' : 'Add Category'}
             </Button>
             <Button 
               type="button" 
               variant="secondary" 
               onClick={() => setIsAdding(false)}
             >
-              Abort
+              Cancel
             </Button>
           </div>
         </div>
@@ -235,14 +235,14 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
             <div className="w-12 h-12 rounded-xl bg-surface-card/5 flex items-center justify-center text-text-muted-40 group-hover:bg-cyber-accent-green/10 group-hover:text-cyber-accent-green transition-colors border border-surface-border-light">
               <Plus size={24} />
             </div>
-            <span className="text-[10px] font-bold text-text-muted-40 group-hover:text-cyber-accent-green uppercase tracking-tighter">Initialize</span>
+            <span className="text-[10px] font-bold text-text-muted-40 group-hover:text-cyber-accent-green uppercase tracking-tighter">Add New</span>
           </button>
         </div>
       </div>
       
       {filteredCategories.length === 0 && (
         <div className="py-12 text-center bg-surface-card/5 rounded-xl border border-dashed border-surface-border-light">
-          <p className="text-[10px] text-text-muted-40 font-bold uppercase tracking-widest italic animate-pulse">Waiting for Data Stream...</p>
+          <p className="text-[10px] text-text-muted-40 font-bold uppercase tracking-widest italic animate-pulse">No categories found...</p>
         </div>
       )}
 

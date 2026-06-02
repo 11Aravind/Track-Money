@@ -54,29 +54,29 @@ const DashboardPage = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-heading font-black text-text-primary tracking-widest uppercase">
-            Control Center<span className="text-cyber-accent-green">_</span>
+            Financial Dashboard
           </h1>
           <p className="text-[10px] font-bold text-cyber-accent-blue tracking-[0.3em] uppercase mt-1 opacity-70">
-            Real-time Financial Telemetry
+            Real-time Overview
           </p>
         </div>
         <Button onClick={() => setShowAddModal(true)} className="px-8 shadow-[0_0_20px_rgba(204,255,0,0.15)]">
           <Plus size={18} className="mr-2" />
-          <span>New Entry</span>
+          <span>Add Transaction</span>
         </Button>
       </div>
 
       {/* Overall Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatsCard
-          title="Active Liquidity"
+          title="Current Balance"
           value={analytics.balance}
           icon={Wallet}
           type="neutral"
           className="border-surface-border-light"
         />
         <StatsCard
-          title="Positive Inflow"
+          title="Total Income"
           value={analytics.totalIncome}
           icon={TrendingUp}
           type="income"
@@ -84,7 +84,7 @@ const DashboardPage = () => {
           tags={analytics.incomeTags}
         />
         <StatsCard
-          title="Resource Outflow"
+          title="Total Expenses"
           value={analytics.totalExpense}
           icon={TrendingDown}
           type="expense"
@@ -98,9 +98,9 @@ const DashboardPage = () => {
         <div className="lg:col-span-8 space-y-8">
           <div className="card border-surface-border-light bg-surface-overlay/20">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest">Temporal Analysis</h2>
+              <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest">Monthly Trends</h2>
               <div className="flex items-center gap-2">
-                 <span className="text-[10px] font-bold text-cyber-accent-blue uppercase tracking-widest opacity-60">Cycle 2026</span>
+                 <span className="text-[10px] font-bold text-cyber-accent-blue uppercase tracking-widest opacity-60">Year 2026</span>
               </div>
             </div>
             <div className="h-[300px]">
@@ -111,14 +111,14 @@ const DashboardPage = () => {
           <div className="card border-surface-border-light bg-surface-overlay/20">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-3">
-                <History className="text-cyber-accent-green" size={16} />
-                <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest">Recent Buffers</h2>
+                 <History className="text-cyber-accent-green" size={16} />
+                 <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest">Recent Transactions</h2>
               </div>
               <button 
                 onClick={() => navigate('/transactions')}
                 className="text-cyber-accent-blue text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:text-text-primary transition-colors"
               >
-                Access Archives <ArrowRight size={12} />
+                View All Transactions <ArrowRight size={12} />
               </button>
             </div>
             <div className="divide-y divide-surface-border-light">
@@ -140,7 +140,7 @@ const DashboardPage = () => {
         {/* Right Column: Breakdown & Monthly Recap */}
         <div className="lg:col-span-4 space-y-8">
           <div className="card border-surface-border-light bg-surface-card/40">
-            <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest mb-8">Monthly Snapshot</h2>
+            <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest mb-8">Monthly Summary</h2>
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
@@ -156,17 +156,17 @@ const DashboardPage = () => {
             <div className="space-y-4">
               <div className="p-5 bg-surface-overlay/40 rounded-xl border border-surface-border-light relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-1 h-full bg-cyber-accent-green opacity-20" />
-                <p className="text-[10px] font-bold text-cyber-accent-green uppercase tracking-widest mb-2">Total Inflow</p>
+                <p className="text-[10px] font-bold text-cyber-accent-green uppercase tracking-widest mb-2">Total Income</p>
                 <p className="text-2xl font-heading font-black text-text-primary">{formatCurrency(monthIncome)}</p>
               </div>
               <div className="p-5 bg-surface-overlay/40 rounded-xl border border-surface-border-light relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-1 h-full bg-cyber-accent-blue opacity-20" />
-                <p className="text-[10px] font-bold text-cyber-accent-blue uppercase tracking-widest mb-2">Total Outflow</p>
+                <p className="text-[10px] font-bold text-cyber-accent-blue uppercase tracking-widest mb-2">Total Expenses</p>
                 <p className="text-2xl font-heading font-black text-text-primary">{formatCurrency(monthExpense)}</p>
               </div>
               <div className="p-5 bg-surface-overlay/40 rounded-xl border border-surface-border-light relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-1 h-full bg-surface-border opacity-20" />
-                <p className="text-[10px] font-bold text-text-muted-40 uppercase tracking-widest mb-2">Net Variance</p>
+                <p className="text-[10px] font-bold text-text-muted-40 uppercase tracking-widest mb-2">Net Savings</p>
                 <p className={`text-2xl font-heading font-black ${monthIncome - monthExpense >= 0 ? 'text-cyber-accent-green' : 'text-cyber-accent-blue'}`}>
                   {formatCurrency(monthIncome - monthExpense)}
                 </p>
@@ -175,7 +175,7 @@ const DashboardPage = () => {
           </div>
 
           <div className="card border-surface-border-light bg-surface-overlay/20">
-            <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest mb-8">Traffic Distribution</h2>
+            <h2 className="text-xs font-bold text-text-primary uppercase tracking-widest mb-8">Spending by Category</h2>
             <div className="space-y-6">
               {analytics.categoryTotals
                 .sort((a, b) => b.total - a.total)

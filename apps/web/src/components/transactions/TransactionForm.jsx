@@ -108,7 +108,7 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="space-y-4">
         <label className="label block border-b border-surface-border-light pb-2">
-          1. System Classification <span className="text-cyber-accent-blue opacity-50">*</span>
+          1. Select Category <span className="text-cyber-accent-blue opacity-50">*</span>
         </label>
         <CategorySelector 
           categories={categories}
@@ -123,7 +123,7 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <label className="label block border-b border-surface-border-light pb-2">
-            2. Quantum Amount <span className="text-cyber-accent-blue opacity-50">*</span>
+            2. Amount <span className="text-cyber-accent-blue opacity-50">*</span>
           </label>
           <div className="relative group">
             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-cyber-accent-green font-heading font-black text-lg group-focus-within:scale-110 transition-transform tracking-tighter z-10">¥</span>
@@ -146,7 +146,7 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
 
         <div className="space-y-4">
           <label className="label block border-b border-surface-border-light pb-2">
-            3. Temporal Marker <span className="text-cyber-accent-blue opacity-50">*</span>
+            3. Select Date <span className="text-cyber-accent-blue opacity-50">*</span>
           </label>
           <Input
             type="date"
@@ -162,14 +162,14 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
 
       <div className="space-y-4">
         <label htmlFor="note" className="label block border-b border-surface-border-light pb-2">
-          4. Buffer Metadata <span className="text-text-muted-40">(OPTIONAL)</span>
+          4. Notes <span className="text-text-muted-40">(OPTIONAL)</span>
         </label>
         <textarea
           id="note"
           name="note"
           value={formData.note}
           onChange={handleChange}
-          placeholder="Append supplementary data..."
+          placeholder="Add any notes here..."
           rows="2"
           className="w-full px-4 py-2 border border-surface-border rounded-xl bg-surface-card focus:outline-none focus:border-cyber-accent-green transition-all text-text-primary placeholder:text-text-muted-40 resize-none font-mono text-xs tracking-tighter"
         />
@@ -177,7 +177,7 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
 
       {errors.submit && (
         <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl animate-pulse">
-          <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest">CRITICAL_ERROR: {errors.submit}</p>
+          <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest">Error: {errors.submit}</p>
         </div>
       )}
 
@@ -188,7 +188,7 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
           disabled={loading}
           className="flex-1 py-4 text-xs font-black tracking-[0.2em] shadow-lg shadow-cyber-accent-green/10"
         >
-          {loading ? 'PROCESSING...' : transaction ? 'SYNC_CHANGES' : 'INITIALIZE_ENTRY'}
+          {loading ? 'Processing...' : transaction ? 'Save Changes' : 'Add Transaction'}
         </Button>
         {onCancel && (
           <Button
@@ -198,7 +198,7 @@ const TransactionForm = ({ transaction, categories, onSuccess, onCancel }) => {
             disabled={loading}
             className="px-8 py-4 text-[10px] font-bold tracking-[0.2em] border-surface-border text-text-muted-70 hover:bg-surface-card"
           >
-            ABORT
+            Cancel
           </Button>
         )}
       </div>

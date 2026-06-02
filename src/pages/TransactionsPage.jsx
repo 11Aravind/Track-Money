@@ -47,15 +47,15 @@ const TransactionsPage = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-heading font-black text-text-primary tracking-widest uppercase">
-            Data Ledger<span className="text-cyber-accent-green">_</span>
+            Transaction History
           </h1>
           <p className="text-[10px] font-bold text-cyber-accent-blue tracking-[0.3em] uppercase mt-1 opacity-70">
-            Historical Financial Records
+            View and manage all transactions
           </p>
         </div>
         <Button onClick={() => setShowModal(true)} className="px-8 shadow-[0_0_20px_rgba(204,255,0,0.15)]">
           <Plus size={18} className="mr-2" />
-          <span>New Record</span>
+          <span>Add Transaction</span>
         </Button>
       </div>
 
@@ -72,7 +72,7 @@ const TransactionsPage = () => {
       <Modal
         isOpen={showModal}
         onClose={handleCloseModal}
-        title={editingTransaction ? 'Modify_Entry' : 'Initialize_Entry'}
+        title={editingTransaction ? 'Edit Transaction' : 'Add Transaction'}
         size="lg"
       >
         <TransactionForm
