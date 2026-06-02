@@ -26,7 +26,7 @@
 
 /* Light mode (Luminous) */
 html.light, html.light body {
-  --bg-primary: #F8FAFC;
+  --bg-primary: #FFFFFF;
   --surface-card: #FFFFFF;
   --surface-border: #E2E8F0;
   --surface-border-subtle: #F1F5F9;
@@ -76,7 +76,6 @@ html.light, html.light body {
   }
   
   .card:hover {
-    border-color: var(--accent-blue);
     @apply shadow-premium-lg -translate-y-1;
   }
 
@@ -86,7 +85,7 @@ html.light, html.light body {
   }
   
   .btn-primary {
-    @apply bg-cyber-accent-green text-black hover:bg-white focus:ring-cyber-accent-green;
+    @apply bg-cyber-accent-green text-black hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black focus:ring-cyber-accent-green;
   }
   
   .btn-secondary {
@@ -154,11 +153,11 @@ html.light, html.light body {
 
   /* ==================== Navigation ==================== */
   .nav-link {
-    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-text-secondary hover:bg-white/10 hover:text-white transition-all duration-200 uppercase text-[10px] font-bold tracking-widest;
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-text-secondary hover:bg-surface-border-light hover:text-text-primary transition-all duration-200 uppercase text-[10px] font-bold tracking-widest;
   }
   
   .nav-link.active {
-    @apply bg-white/10 text-cyber-accent-green border-r-2 border-cyber-accent-green rounded-r-none;
+    @apply bg-surface-border-light text-cyber-accent-green border-r-2 border-cyber-accent-green rounded-r-none;
   }
 }
 

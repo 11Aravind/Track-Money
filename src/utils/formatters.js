@@ -7,7 +7,7 @@ export const formatCurrency = (amount) => {
   }).format(amount);
 };
 
-export const formatDate = (date) => {
+export const formatDate = (date, relative = true) => {
   if (!date) return '';
   
   // Handle Firestore Timestamp
@@ -18,6 +18,20 @@ export const formatDate = (date) => {
   // Handle string dates
   if (typeof date === 'string') {
     date = new Date(date);
+  }
+  
+  if (relative) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    
+    if (d.getTime() === today.getTime()) return 'Today';
+    if (d.getTime() === yesterday.getTime()) return 'Yesterday';
   }
   
   return new Intl.DateTimeFormat('en-IN', {

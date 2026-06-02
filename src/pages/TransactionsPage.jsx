@@ -59,7 +59,7 @@ const TransactionsPage = () => {
         </Button>
       </div>
 
-      <div className="card border-white/5 bg-black/20 p-0 overflow-hidden">
+      <div className="p-0 overflow-hidden">
         <TransactionList
           transactions={transactions}
           categories={categories}

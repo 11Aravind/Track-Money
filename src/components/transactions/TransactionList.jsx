@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TransactionItem from './TransactionItem';
 import { Search, Filter } from 'lucide-react';
 import { searchTransactions, filterByMonth, filterByCategory, filterByType } from '../../utils/calculations';
-import { getMonthOptions } from '../../utils/formatters';
+import { getMonthOptions, formatDate, getMonthName } from '../../utils/formatters';
 
 const TransactionList = ({ transactions, categories, onEdit, initialType = 'all', initialCategory = 'all' }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,6 +40,18 @@ const TransactionList = ({ transactions, categories, onEdit, initialType = 'all'
   const getCategoryById = (id) => categories.find(cat => cat.id === id);
   const selectedCategoryData = selectedCategory !== 'all' ? getCategoryById(selectedCategory) : null;
 
+  // Group transactions by Month and then by Day
+  const groupedTransactions = filteredTransactions.reduce((groups, transaction) => {
+    const dateObj = transaction.date?.toDate ? transaction.date.toDate() : new Date(transaction.date);
+    const monthKey = `${getMonthName(dateObj.getMonth())} ${dateObj.getFullYear()}`;
+    const dayKey = formatDate(transaction.date);
+
+    if (!groups[monthKey]) groups[monthKey] = {};
+    if (!groups[monthKey][dayKey]) groups[monthKey][dayKey] = [];
+    groups[monthKey][dayKey].push(transaction);
+    return groups;
+  }, {});
+
   return (
     <div className="space-y-6">
       <div className="mb-8">
@@ -51,7 +63,7 @@ const TransactionList = ({ transactions, categories, onEdit, initialType = 'all'
               placeholder="Query transaction database..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-surface-card border border-surface-border rounded-xl py-3.5 pl-12 pr-4 text-xs font-mono tracking-tighter text-text-primary focus:outline-none focus:border-cyber-accent-green transition-all placeholder:text-text-muted-40 placeholder:uppercase placeholder:font-bold placeholder:tracking-widest"
+              className="w-full bg-surface-card border border-surface-border rounded-xl py-3.5 pl-12 pr-4 text-xs font-mono tracking-tighter text-text-primary focus:outline-none focus:border-cyber-accent-green transition-all placeholder:text-text-muted-40 placeholder:uppercase placeholder:font-bold placeholder:tracking-widest shadow-sm"
             />
           </div>
           <button
@@ -137,25 +149,49 @@ const TransactionList = ({ transactions, categories, onEdit, initialType = 'all'
         </div>
       )}
 
-      <div className="card p-0 border-surface-border bg-surface-overlay/20 overflow-hidden divide-y divide-surface-border">
+      <div className="space-y-12">
         {filteredTransactions.length === 0 ? (
-          <div className="p-16 text-center space-y-3">
+          <div className="card p-16 text-center space-y-3 bg-surface-overlay/20 border-surface-border">
              <div className="w-16 h-16 bg-surface-card/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-surface-border">
                <Search size={24} className="text-text-muted-40/30" />
              </div>
             <p className="text-[10px] font-bold text-text-primary uppercase tracking-widest opacity-20 italic">No corresponding data stream found.</p>
           </div>
         ) : (
-          <div className="divide-y divide-surface-border">
-            {filteredTransactions.map((transaction) => (
-              <TransactionItem
-                key={transaction.id}
-                transaction={transaction}
-                category={getCategoryById(transaction.category)}
-                onEdit={onEdit}
-              />
-            ))}
-          </div>
+          Object.entries(groupedTransactions).map(([month, days]) => (
+            <div key={month} className="space-y-0 animate-scale-in">
+              <div className="bg-cyber-accent-blue px-6 py-4 rounded-t-2xl shadow-lg relative z-10">
+                <h3 className="text-sm font-black text-white uppercase tracking-[0.2em]">
+                  {month}
+                </h3>
+              </div>
+
+              <div className="card p-0 border-surface-border bg-surface-card overflow-hidden shadow-xl rounded-t-none">
+                {Object.entries(days).map(([day, dayTransactions]) => (
+                  <div key={day} className="animate-in fade-in slide-in-from-top-4 duration-500">
+                    <div className="bg-surface-card px-6 py-4 border-y border-surface-border-light flex justify-between items-center">
+                      <p className="text-sm font-extrabold text-text-primary">
+                        {day}
+                      </p>
+                      <p className="text-[10px] font-mono text-text-muted-40 uppercase tracking-widest">
+                        {dayTransactions.length} TXNS
+                      </p>
+                    </div>
+                    <div className="divide-y divide-surface-border">
+                      {dayTransactions.map((transaction) => (
+                        <TransactionItem
+                          key={transaction.id}
+                          transaction={transaction}
+                          category={getCategoryById(transaction.category)}
+                          onEdit={onEdit}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
         )}
       </div>
     </div>

@@ -206,16 +206,16 @@ const DashboardPage = () => {
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
-                    </div>
-                  );
-                })}
-              {analytics.categoryTotals.length === 0 && (
-                <p className="text-center text-text-muted py-4 italic">No data yet.</p>
-              )}
-            </div>
+                  </div>
+                );
+              })}
+            {analytics.categoryTotals.length === 0 && (
+              <p className="text-center text-text-muted py-4 italic">No data yet.</p>
+            )}
           </div>
         </div>
       </div>
+    </div>
 
       <Modal
         isOpen={showAddModal}
