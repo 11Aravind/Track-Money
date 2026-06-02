@@ -124,6 +124,21 @@ export const updateCategory = async (categoryId: string, categoryData: any) => {
   }
 };
 
+export const updateCategoriesOrder = async (orderedCategories: any[]) => {
+  try {
+    const batch = writeBatch(db);
+    orderedCategories.forEach((category, index) => {
+      const categoryRef = doc(db, 'categories', category.id);
+      batch.update(categoryRef, { order: index });
+    });
+    await batch.commit();
+    return { success: true };
+  } catch (error) {
+    console.error('Error updating categories order:', error);
+    return { success: false, error: getFriendlyFirestoreError(error, 'update') };
+  }
+};
+
 export const deleteCategory = async (categoryId: string) => {
   try {
     await deleteDoc(doc(db, 'categories', categoryId));
@@ -189,11 +204,12 @@ export const initializeDefaultCategories = async (userId: string) => {
 
   try {
     const batch = writeBatch(db);
-    defaultCategories.forEach((category) => {
+    defaultCategories.forEach((category, index) => {
       const docRef = doc(collection(db, 'categories'));
       batch.set(docRef, {
         ...category,
         userId,
+        order: index,
         createdAt: serverTimestamp()
       });
     });

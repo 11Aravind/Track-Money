@@ -1,10 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Plus, ChevronLeft, Check, Edit2 } from 'lucide-react';
 import IconRenderer from '../common/IconRenderer';
 import { FEATURED_ICONS } from '../../utils/iconMapping';
 import Button from '../common/Button';
 import Input from '../common/Input';
-import { addCategory, updateCategory } from '../../firebase/firestore';
+import { addCategory, updateCategory, updateCategoriesOrder } from '../../firebase/firestore';
 import { useAuth } from '../../context/AuthContext';
 
 const TABS = [
@@ -24,6 +24,12 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [localCategories, setLocalCategories] = useState(categories);
+  const [draggedIndex, setDraggedIndex] = useState(null);
+
+  useEffect(() => {
+    setLocalCategories(categories);
+  }, [categories]);
   
   // Form State
   const [formData, setFormData] = useState({
@@ -34,8 +40,36 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
 
   const filteredCategories = useMemo(() => {
     const activeTabConfig = TABS.find(t => t.id === activeTab);
-    return categories.filter(cat => activeTabConfig.types.includes(cat.type));
-  }, [categories, activeTab]);
+    return localCategories.filter(cat => activeTabConfig.types.includes(cat.type));
+  }, [localCategories, activeTab]);
+
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.effectAllowed = 'move';
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+
+    const activeTabConfig = TABS.find(t => t.id === activeTab);
+    const tabCategories = localCategories.filter(cat => activeTabConfig.types.includes(cat.type));
+
+    const updatedTabCategories = [...tabCategories];
+    const [draggedItem] = updatedTabCategories.splice(draggedIndex, 1);
+    updatedTabCategories.splice(index, 0, draggedItem);
+
+    const nonTabCategories = localCategories.filter(cat => !activeTabConfig.types.includes(cat.type));
+    const mergedCategories = [...updatedTabCategories, ...nonTabCategories];
+
+    setLocalCategories(mergedCategories);
+    setDraggedIndex(index);
+  };
+
+  const handleDragEnd = async () => {
+    setDraggedIndex(null);
+    await updateCategoriesOrder(localCategories);
+  };
 
   const handleOpenAdd = () => {
     setEditingCategory(null);
@@ -66,7 +100,8 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
     } else {
       const activeTabConfig = TABS.find(t => t.id === activeTab);
       const type = activeTabConfig.types[0]; 
-      result = await addCategory(user.uid, { ...formData, type });
+      const order = filteredCategories.length;
+      result = await addCategory(user.uid, { ...formData, type, order });
     }
 
     if (result.success) {
@@ -186,8 +221,17 @@ const CategorySelector = ({ selectedCategoryId, onSelect, categories }) => {
       {/* Grid Container with scrollbar */}
       <div className="max-h-[340px] overflow-y-auto pr-2 custom-scrollbar">
         <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 py-2">
-          {filteredCategories.map((category) => (
-            <div key={category.id} className="relative group">
+          {filteredCategories.map((category, index) => (
+            <div 
+              key={category.id} 
+              className={`relative group cursor-grab active:cursor-grabbing transition-all duration-200 ${
+                draggedIndex === index ? 'opacity-40 scale-95 border-dashed border-cyber-accent-green' : ''
+              }`}
+              draggable
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDragOver={(e) => handleDragOver(e, index)}
+              onDragEnd={handleDragEnd}
+            >
               <button
                 onClick={() => onSelect(category.id)}
                 className={`flex flex-col items-center gap-3 p-4 rounded-xl border-2 transition-all w-full ${

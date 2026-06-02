@@ -58,7 +58,13 @@ export const TransactionProvider = ({ children }) => {
     const unsubscribeCategories = subscribeToCategories(
       user.uid, 
       (data) => {
-        setCategories(data);
+        const sorted = [...data].sort((a, b) => {
+          const orderA = a.order !== undefined ? a.order : 999;
+          const orderB = b.order !== undefined ? b.order : 999;
+          if (orderA !== orderB) return orderA - orderB;
+          return (a.name || '').localeCompare(b.name || '');
+        });
+        setCategories(sorted);
         setLoading(prev => ({ ...prev, categories: false }));
       },
       (err) => {
