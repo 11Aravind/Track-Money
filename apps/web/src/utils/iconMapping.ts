@@ -3,7 +3,8 @@ import {
   Home, Car, Gamepad2, Smartphone, Plane, Hospital, Book, 
   ShieldCheck, Gift, Coffee, Dumbbell, Music, Wifi, Handshake, 
   Wallet, Landmark, CreditCard, TrendingDown, TrendingUp, UserCheck, 
-  UserX, ShoppingBasket
+  UserX, ShoppingBasket, Sprout, Tractor, Leaf, Trees, Wrench, 
+  Hammer, HardHat, Construction, Building, Fence, Droplets, Shovel
 } from 'lucide-react';
 
 export const ICON_MAP: Record<string, any> = {
@@ -35,5 +36,17 @@ export const ICON_MAP: Record<string, any> = {
   'TrendingUp': TrendingUp,
   'UserCheck': UserCheck,
   'UserX': UserX,
-  'ShoppingBasket': ShoppingBasket
+  'ShoppingBasket': ShoppingBasket,
+  'Sprout': Sprout,
+  'Tractor': Tractor,
+  'Leaf': Leaf,
+  'Trees': Trees,
+  'Wrench': Wrench,
+  'Hammer': Hammer,
+  'HardHat': HardHat,
+  'Construction': Construction,
+  'Building': Building,
+  'Fence': Fence,
+  'Droplets': Droplets,
+  'Shovel': Shovel
 };

@@ -27,7 +27,19 @@ import {
   TrendingUp,
   UserCheck,
   UserX,
-  ShoppingBasket
+  ShoppingBasket,
+  Sprout,
+  Tractor,
+  Leaf,
+  Trees,
+  Wrench,
+  Hammer,
+  HardHat,
+  Construction,
+  Building,
+  Fence,
+  Droplets,
+  Shovel
 } from 'lucide-react';
 
 export const ICON_MAP = {
@@ -59,7 +71,19 @@ export const ICON_MAP = {
   'TrendingUp': TrendingUp,
   'UserCheck': UserCheck,
   'UserX': UserX,
-  'ShoppingBasket': ShoppingBasket
+  'ShoppingBasket': ShoppingBasket,
+  'Sprout': Sprout,
+  'Tractor': Tractor,
+  'Leaf': Leaf,
+  'Trees': Trees,
+  'Wrench': Wrench,
+  'Hammer': Hammer,
+  'HardHat': HardHat,
+  'Construction': Construction,
+  'Building': Building,
+  'Fence': Fence,
+  'Droplets': Droplets,
+  'Shovel': Shovel
 };
 
 export const FEATURED_ICONS = [
@@ -86,7 +110,19 @@ export const FEATURED_ICONS = [
   { name: 'Wallet', icon: 'Wallet' },
   { name: 'Landmark', icon: 'Landmark' },
   { name: 'CreditCard', icon: 'CreditCard' },
-  { name: 'ShoppingBasket', icon: 'ShoppingBasket' }
+  { name: 'ShoppingBasket', icon: 'ShoppingBasket' },
+  { name: 'Sprout', icon: 'Sprout' },
+  { name: 'Tractor', icon: 'Tractor' },
+  { name: 'Leaf', icon: 'Leaf' },
+  { name: 'Trees', icon: 'Trees' },
+  { name: 'Wrench', icon: 'Wrench' },
+  { name: 'Hammer', icon: 'Hammer' },
+  { name: 'HardHat', icon: 'HardHat' },
+  { name: 'Construction', icon: 'Construction' },
+  { name: 'Building', icon: 'Building' },
+  { name: 'Fence', icon: 'Fence' },
+  { name: 'Droplets', icon: 'Droplets' },
+  { name: 'Shovel', icon: 'Shovel' }
 ];
 
 // Emoji to Lucide mapping for migration
