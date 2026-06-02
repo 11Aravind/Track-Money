@@ -47,7 +47,7 @@ const TransactionItem = ({ transaction, category, onEdit }) => {
             {transaction.note && (
               <>
                 <span className="opacity-30 flex-shrink-0">|</span>
-                <span className="truncate min-w-0 italic group-hover:text-text-secondary transition-colors">{transaction.note}</span>
+                <span className="inline-block truncate min-w-0 italic group-hover:text-text-secondary transition-colors">{transaction.note}</span>
               </>
             )}
           </div>
