@@ -42,12 +42,12 @@ const TransactionItem = ({ transaction, category, onEdit }) => {
           <p className="text-[10px] font-bold text-text-primary uppercase tracking-widest truncate mb-0.5 group-hover:text-cyber-accent-green transition-colors">
             {category?.name || 'GENERIC_ENTRY'}
           </p>
-          <div className="flex items-center gap-2 text-[10px] font-mono text-text-muted-40 tracking-tighter overflow-hidden">
+          <div className="flex items-center gap-2 text-[10px] font-mono text-text-muted-40 tracking-tighter overflow-hidden min-w-0">
             <span className="flex-shrink-0">{formatDate(transaction.date)}</span>
             {transaction.note && (
               <>
-                <span className="opacity-30">|</span>
-                <span className="truncate italic group-hover:text-text-secondary transition-colors">{transaction.note}</span>
+                <span className="opacity-30 flex-shrink-0">|</span>
+                <span className="truncate min-w-0 italic group-hover:text-text-secondary transition-colors">{transaction.note}</span>
               </>
             )}
           </div>
